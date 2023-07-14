@@ -1,3 +1,5 @@
+#include "shell.h"
+
 /**
  * execute_commands - executes the commands passed to the shell
  * @args: tokenized arguments

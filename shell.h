@@ -17,11 +17,9 @@
 #define DELIMITERS " \t\r\n\a"
 
 /****** Prototypes *****/
-void execute_cmd(char *command, char *argv[]);
-void handle_signal(int num);
-int shell_loop(int ac, char **av);
+void shell_loop(void);
 char *read_input(void);
-char *split_input(char *input);
+char **split_input(char *input);
 int execute_commands(char **args);
 
 /******* Print functions ********/

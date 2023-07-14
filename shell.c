@@ -1,28 +1,13 @@
 #include "shell.h"
 
 /**
- * handle_signal - prints a new prompt upon a signal
- * @num: signal passed as an integer
- *
- * Return: void
- */
-void handle_signal(int num)
-{
-	char *shell_sign = "\n($) ";
-
-	(void)num;
-	signal(SIGINT, handle_signal);
-	write(STDIN_FILENO, shell_sign, 20);
-}
-
-/**
  * main - Entry point for the program
  * @ac: argument count
  * @av: array containing arguments fed to the shell
  *
  * Return: 0 on success
  */
-int main(int ac, char **av)
+int main(void)
 {
 	shell_loop();
 
@@ -37,26 +22,19 @@ int main(int ac, char **av)
  *
  * Return: 0 on success
 */
-int shell_loop(int ac, char **av)
+void shell_loop(void)
 {
-	char *shell_sign = "\n($) ";
-	char *str = "";
+	char *shell_sign = "\n($)";
 	char *input;
 	char **arguments;
 	int status;
-	(void) **av;
-
-	signal(SIGINT, handle_signal);
-
-	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && ac == 1)
-		str = shell_sign;
 
 	do {
 		print_string(shell_sign);
 
 		input = read_input();
-		arguments = split_input();
-		status = execute_commands();
+		arguments = split_input(input);
+		status = execute_commands(arguments);
 
 		free(input);
 		free(arguments);
@@ -72,7 +50,7 @@ int shell_loop(int ac, char **av)
 char *read_input(void)
 {
 	char *input = NULL;
-	ssize_t buffer_size = 0;
+	size_t buffer_size = 0;
 	int result;
 
 	result = getline(&input, &buffer_size, stdin);
@@ -96,7 +74,7 @@ char *read_input(void)
  *
  * Return: individual tokens
  */
-char *split_input(char *input)
+char **split_input(char *input)
 {
 	int buffer_size = BUFFER_SIZE;
 	int index = 0;
