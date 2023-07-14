@@ -13,7 +13,15 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#define BUFFER_SIZE 1024
+#define DELIMITERS " \t\r\n\a"
+
 /****** Prototypes *****/
+void execute_cmd(char *command, char *argv[]);
+void handle_signal(int num);
+int shell_loop(int ac, char **av);
+char *read_input(void);
+
 
 /******* Print functions ********/
 int print_string(char *s);

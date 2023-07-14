@@ -14,9 +14,7 @@
 void execute_cmd(char *command, char *argv[])
 {
 	if (execve(command, argv, NULL) == -1)
-	{
 		perror("Execution error\n");
-		exit(EXIT_FAILURE);
-	}
+	exit(EXIT_FAILURE);
 	free(command);
 }
