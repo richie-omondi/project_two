@@ -21,7 +21,8 @@ void execute_cmd(char *command, char *argv[]);
 void handle_signal(int num);
 int shell_loop(int ac, char **av);
 char *read_input(void);
-
+char *split_input(char *input);
+int execute_commands(char **args);
 
 /******* Print functions ********/
 int print_string(char *s);

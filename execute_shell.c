@@ -4,7 +4,7 @@
  *
  * Return: 0 on success
  */
-int execute_shell(char **args)
+int execute_commands(char **args)
 {
 	pid_t child_pid;
 	int status;
@@ -28,13 +28,12 @@ int execute_shell(char **args)
 		}
 	}
 	else
-		{
-			wait(&status);
-			if (WIFEXITED(status))
-				errno = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				errno = 128 + WTERMSIG(status);
-		}
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			errno = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			errno = 128 + WTERMSIG(status);
 	}
-		return (0);
+	return (0);
 }
