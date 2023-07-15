@@ -27,18 +27,15 @@ void shell_loop(void)
 	char *shell_sign = "\n($)";
 	char *input;
 	char **arguments;
-	int status;
 
-	do {
+	while (1)
+	{
 		print_string(shell_sign);
 
 		input = read_input();
 		arguments = split_input(input);
-		status = execute_commands(arguments);
-
-		free(input);
-		free(arguments);
-	} while (status);
+		execute_commands(arguments);
+	}
 }
 
 /**
