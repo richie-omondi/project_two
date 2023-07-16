@@ -29,7 +29,8 @@ void shell_loop(void)
 	char **arguments;
 	int status;
 
-	do {
+	while (1)
+	{
 		print_string(shell_sign);
 
 		input = read_input();
@@ -38,7 +39,7 @@ void shell_loop(void)
 
 		free(input);
 		free(arguments);
-	} while (status);
+	};
 }
 
 /**
