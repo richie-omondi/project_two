@@ -4,12 +4,17 @@
  * main - Entry point for the program
  * @ac: argument count
  * @av: array containing arguments fed to the shell
+ * @env: environment variables
  *
  * Return: 0 on success
  */
-int main(void)
+int main(int ac, char **av, char **env)
 {
-	shell_loop();
+	shell_data shell_info = { NULL };
+	shell_data *shell = &shell_info;
+
+	add_data_to_shell(shell, ac, av, env);
+	shell_loop(shell);
 
 	return (EXIT_SUCCESS);
 }
@@ -17,44 +22,41 @@ int main(void)
 /**
  * shell_loop - Function that implements looping-like functionality
  * of the shell
- * @ac: argument count
- * @av: array of argument strings
+ * @shell: struct containing data fd to the shell
  *
  * Return: 0 on success
 */
-void shell_loop(void)
+void shell_loop(shell_data *shell)
 {
 	char *shell_sign = "\n($)";
 	char *input;
 	char **arguments;
-	int status;
 
 	while (1)
 	{
 		print_string(shell_sign);
 
-		input = read_input();
-		arguments = split_input(input);
-		status = execute_commands(arguments);
+		read_input(shell);
+		split_input(shell);
+		execute_commands(shell);
 
-		free(input);
-		free(arguments);
-	};
+		free_and_close(shell);
+	}
 }
 
 /**
  * read_input - Reads the input typed by the user
- * @void: no arguments given to the function
+ * @shell: Struct containing data fed to the shell
  *
  * Return: input fed to the shell
  */
-char *read_input(void)
+char *read_input(shell_data *shell)
 {
-	char *input = NULL;
+	shell->input = NULL;
 	size_t buffer_size = 0;
 	int result;
 
-	result = getline(&input, &buffer_size, stdin);
+	result = getline(shell->input, &buffer_size, stdin);
 
 	if (result == -1)
 	{
@@ -67,40 +69,42 @@ char *read_input(void)
 		}
 	}
 
-	return (input);
+	return (shell->input);
 }
+
 /**
  * split_input - tokenizes a string
- * @input: line written to the shell
+ * @shell: struct containing data fed to the shell
  *
  * Return: individual tokens
  */
-char **split_input(char *input)
+char **split_input(shell_data *shell)
 {
 	int buffer_size = BUFFER_SIZE;
 	int index = 0;
-	char **tokens = malloc(buffer_size * sizeof(char *));
+
+	shell->tokens = malloc(buffer_size * sizeof(char *));
 	char *token;
 
-	if (!tokens)
+	if (!(shell->tokens))
 	{
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(input, DELIMITERS);
+	token = strtok(shell->input, DELIMITERS);
 
 	while (token != NULL)
 	{
-		tokens[index] = token;
+		shell->tokens[index] = token;
 		index++;
 
 		if (index >= buffer_size)
 		{
 			buffer_size += BUFFER_SIZE;
-			tokens = realloc(tokens, buffer_size * sizeof(char *));
+			shell->tokens = _realloc(shell->tokens, buffer_size * sizeof(char *));
 
-			if (!tokens)
+			if (!(shell->tokens))
 			{
 				perror("malloc");
 				exit(EXIT_FAILURE);
@@ -108,6 +112,6 @@ char **split_input(char *input)
 		}
 		token = strtok(NULL, DELIMITERS);
 	}
-	tokens[index] = NULL;
-	return (tokens);
+	shell->tokens[index] = NULL;
+	return (shell->tokens);
 }

@@ -2,18 +2,20 @@
 
 /**
  * execute_commands - executes the commands passed to the shell
- * @args: tokenized arguments
+ * @shell: struct containing data fed to the shell
  *
  * Return: 0 on success
  */
-int execute_commands(char **args)
+int execute_commands(shell_data *shell)
 {
 	pid_t child_pid;
 	int status;
 	int code = 0;
 
+	shell->env = environ;
+
 	child_pid = fork();
-	
+
 	if (child_pid == -1)
 	{
 		perror("Forking error");
@@ -21,11 +23,11 @@ int execute_commands(char **args)
 	}
 	if (child_pid == 0)
 	{
-		code = execve(args[0], args, NULL);
+		code = execve(shell->tokens[0], shell->tokens, shell->env);
 
 		if (code == -1)
 		{
-			perror("Execution error\n");
+			perror("./hsh");
 			exit(EXIT_FAILURE);
 		}
 	}
