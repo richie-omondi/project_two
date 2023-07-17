@@ -18,11 +18,8 @@
 
 extern char **environ;
 
-<<<<<<< HEAD
-=======
 /******* Structs **********/
 
->>>>>>> 3ed2637fa5667f3764da3c8a58ba9aafb4a58cf5
 /**
  * struct data - struct for data fed to the shell
  * @exe: executable file
@@ -41,10 +38,6 @@ typedef struct data
 	char **env;
 	int fd;
 } shell_data;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3ed2637fa5667f3764da3c8a58ba9aafb4a58cf5
 /****** Prototypes *****/
 void shell_loop(shell_data *shell);
 char *read_input(shell_data *shell);
