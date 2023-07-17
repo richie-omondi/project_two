@@ -16,11 +16,32 @@
 #define BUFFER_SIZE 1024
 #define DELIMITERS " \t\r\n\a"
 
+extern char **environ;
+
+/**
+ * struct data - struct for data fed to the shell
+ * @exe: executable file
+ * @input: pointer to the input
+ * @command: pointer to a command typed by the user
+ * @fd: file descriptor
+ * @tokens: tokenized input
+ * @env: environ
+ */
+typedef struct data
+{
+	char *exe;
+	char *input;
+	char *command;
+	char **tokens;
+	char **env;
+	int fd;
+} shell_data;
 /****** Prototypes *****/
-void shell_loop(void);
-char *read_input(void);
-char **split_input(char *input);
-int execute_commands(char **args);
+void shell_loop(shell_data *shell);
+char *read_input(shell_data *shell);
+char **split_input(shell_data *shell);
+int execute_commands(shell_data *shell);
+void add_data_to_shell(shell_data *shell, int ac, char *av[], char **env);
 
 /******* Print functions ********/
 int print_string(char *s);

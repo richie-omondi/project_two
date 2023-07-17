@@ -24,7 +24,7 @@ int main(void)
 */
 void shell_loop(void)
 {
-	char *shell_sign = "\n($)";
+	char *shell_sign = "($)";
 	char *input;
 	char **arguments;
 
