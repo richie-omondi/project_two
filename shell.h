@@ -18,6 +18,11 @@
 
 extern char **environ;
 
+<<<<<<< HEAD
+=======
+/******* Structs **********/
+
+>>>>>>> 3ed2637fa5667f3764da3c8a58ba9aafb4a58cf5
 /**
  * struct data - struct for data fed to the shell
  * @exe: executable file
@@ -36,6 +41,10 @@ typedef struct data
 	char **env;
 	int fd;
 } shell_data;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3ed2637fa5667f3764da3c8a58ba9aafb4a58cf5
 /****** Prototypes *****/
 void shell_loop(shell_data *shell);
 char *read_input(shell_data *shell);
@@ -46,7 +55,15 @@ void add_data_to_shell(shell_data *shell, int ac, char *av[], char **env);
 /******* Print functions ********/
 int print_string(char *s);
 
+/****** Memory functions *******/
+void *_calloc(unsigned int nmem, unsigned int size);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void free_ptrs_arr(char **arr);
+void free_specific_shell_data(shell_data *shell);
+void free_and_close(shell_data *shell);
+
 /******** String functions *******/
 int str_len(char *string);
+char *str_dup(char *string);
 
 #endif
