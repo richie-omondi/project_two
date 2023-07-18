@@ -2,6 +2,7 @@
 #define SHELL_H
 
 #include <stdio.h>
+#include <stddef.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -51,10 +52,7 @@ int print_string(char *s);
 
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-void free_ptrs_arr(char **arr);
-void free_specific_shell_data(shell_data *shell);
-void free_and_close(shell_data *shell);
+void free_shell_data(shell_data *shell);
 
 /******** String functions *******/
 int str_len(char *string);

@@ -28,19 +28,15 @@ int main(int ac, char **av, char **env)
 */
 void shell_loop(shell_data *shell)
 {
-	char *shell_sign = "\n($)";
-	char *input;
-	char **arguments;
+	char *shell_sign = "($)";
 
 	while (1)
 	{
 		print_string(shell_sign);
-
 		read_input(shell);
 		split_input(shell);
 		execute_commands(shell);
-
-		free_and_close(shell);
+		free_shell_data(shell);
 	}
 }
 
@@ -52,11 +48,13 @@ void shell_loop(shell_data *shell)
  */
 char *read_input(shell_data *shell)
 {
-	shell->input = NULL;
-	size_t buffer_size = 0;
+	size_t buffer_size;
 	int result;
 
-	result = getline(shell->input, &buffer_size, stdin);
+	buffer_size = 0;
+	shell->input = NULL;
+
+	result = getline(&(shell->input), &buffer_size, stdin);
 
 	if (result == -1)
 	{
@@ -80,18 +78,20 @@ char *read_input(shell_data *shell)
  */
 char **split_input(shell_data *shell)
 {
+	char *token;
+	char **temp;
+	int j;
+
 	int buffer_size = BUFFER_SIZE;
 	int index = 0;
 
 	shell->tokens = malloc(buffer_size * sizeof(char *));
-	char *token;
 
 	if (!(shell->tokens))
 	{
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(shell->input, DELIMITERS);
 
 	while (token != NULL)
@@ -102,13 +102,16 @@ char **split_input(shell_data *shell)
 		if (index >= buffer_size)
 		{
 			buffer_size += BUFFER_SIZE;
-			shell->tokens = _realloc(shell->tokens, buffer_size * sizeof(char *));
+			temp = malloc(buffer_size * sizeof(char *));
 
-			if (!(shell->tokens))
+			if (!temp)
 			{
 				perror("malloc");
 				exit(EXIT_FAILURE);
 			}
+			for (j = 0; j < index; j++)
+				temp[j] = shell->tokens[j];
+			shell->tokens = temp;
 		}
 		token = strtok(NULL, DELIMITERS);
 	}
