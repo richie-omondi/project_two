@@ -1,2 +1,0 @@
-FUNCTIONS TO BE DEFINED
-1. _exit();
