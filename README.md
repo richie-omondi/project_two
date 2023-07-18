@@ -19,5 +19,5 @@ This simple shell is a Shell interface written in the `C` programming language t
 ## Authors:
 
 - Richard Orido - [@richie-omondi](https://github.com/richie-omondi) 
-- Maxmillan Rutto - 
+- Maxmillan Rutto - [@Maxrutto](https://github.com/Maxrutto)
 
