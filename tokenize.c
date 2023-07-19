@@ -15,10 +15,10 @@ char **tokenize_path(shell_data *shell)
 	int count = 0, buffer_size = 1, i;
 
 	path_tokens = NULL;
-	path_copy = str_dup(shell->path);
-
+	path_copy = get_env_value("PATH", shell);
+/******* Error handling ******/
 	token_path = strtok(path_copy, DELIMITERS);
-	path_tokens = malloc(buffer_size * sizeof(char *));
+	path_tokens = malloc(buffer_size * sizeof(char *));/***\n Error handlin***/
 	if (path_tokens == NULL)
 	{
 		perror("Memory allocation failure");
