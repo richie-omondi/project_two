@@ -48,3 +48,27 @@ char *str_dup(char *string)
 
 	return (dup);
 }
+
+/**
+ * _strncmp - Compares at most the first n bytes of two strings.
+ * @str1: A pointer to the first string to be compared.
+ * @str2: A pointer to the second string to be compared.
+ * @n: number of bytes to compare
+ *
+ * Return: If str1 < str2, the negative difference of
+ * the first unmatched characters.
+ *         If str1 == str2, 0.
+ *         If str1 > str2, the positive difference of
+ *         the first unmatched characters.
+ */
+int _strncmp(char *str1, char *str2, size_t n)
+{
+	while ((*str1 && *str2) && (*str1 == *str2))
+	{
+		str1++;
+		str2++;
+		n--;
+	}
+
+	return (*str1 - *str2);
+}

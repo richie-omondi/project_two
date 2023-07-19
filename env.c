@@ -9,7 +9,6 @@ char *get_env_value(char *env_variable, shell_data *shell)
 {
 	int i;
 	int variable_length;
-	char **env;
 
 	shell->env = environ;
 
@@ -18,14 +17,11 @@ char *get_env_value(char *env_variable, shell_data *shell)
 
 	variable_length = str_len(env_variable);
 
-	for (i = 0; env[i] != NULL; i++)
+	for (i = 0; shell->env[i] != NULL; i++)
 	{
-		if (str_cmp(env_variable, env[i]) == 0)
-		{
-			while (env[i][variable_length] == '=')
-				variable_length++;
-			return (env[i] + variable_length);
-		}
+		if (_strncmp(env_variable, shell->env[i], variable_length) == 0
+				&& shell->env[i][variable_length] == "=")
+			return (shell->env[i] + variable_length + 1);
 	}
 	return (NULL);
 }
