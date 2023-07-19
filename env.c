@@ -1,3 +1,5 @@
+#include "shell.h"
+
 /**
  * get_env_value - Gets the value of the environment variable
  * @env_variable: environment variable
@@ -22,9 +24,17 @@ char *get_env_value(char *env_variable, shell_data *shell)
 	{
 		if (str_cmp(env_variable, env[i]) == 0)
 		{
-			while (env[i][variable_length] == '=')
+			if (str_cmp(env_variable, "PATH") == 0)
+			{
 				variable_length++;
-			return (env[i] + variable_length);
+				return (shell->env[i] + variable_length);
+			}
+			else
+			{
+				while (env[i][variable_length] == '=')
+					variable_length++;
+				return (env[i] + variable_length);
+			}
 		}
 	}
 	return (NULL);
