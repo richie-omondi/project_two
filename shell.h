@@ -36,6 +36,7 @@ typedef struct data
 	char *input;
 	char *command;
 	char **tokens;
+	char *path;
 	char **env;
 	int fd;
 } shell_data;
@@ -44,6 +45,10 @@ typedef struct data
 void shell_loop(shell_data *shell);
 char *read_input(shell_data *shell);
 char **split_input(shell_data *shell);
+char **tokenize_path(shell_data *shell);
+int check_file(char *path);
+char *get_env_value(char *env_variable, shell_data *shell);
+char *find_executable(shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[], char **env);
 
@@ -57,5 +62,8 @@ void free_shell_data(shell_data *shell);
 /******** String functions *******/
 int str_len(char *string);
 char *str_dup(char *string);
+char *str_cpy(char *dest, const char *src);
+char *str_cat(char *str1, char *str2);
+int _strncmp(char *str1, char *str2, size_t n);
 
 #endif
