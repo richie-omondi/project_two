@@ -97,6 +97,7 @@ char **split_input(shell_data *shell)
 	while (token != NULL)
 	{
 		shell->tokens[index] = token;
+		shell->command = shell->tokens[0];
 		index++;
 
 		if (index >= buffer_size)
