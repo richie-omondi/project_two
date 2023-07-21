@@ -113,6 +113,7 @@ char **split_input(shell_data *shell)
 			for (j = 0; j < index; j++)
 				temp[j] = shell->tokens[j];
 			shell->tokens = temp;
+			shell->command = shell->tokens[0];
 		}
 		token = strtok(NULL, DELIMITERS);
 	}
