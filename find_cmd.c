@@ -11,16 +11,18 @@
  * if it exists or NULL if not found
  */
 
-char *find_executable(char **path_tokens, shell_data *shell)
+char *find_executable(shell_data *shell)
 {
 	char *full_path;
 
+	char **path_tokens;
+
 	int i;
 
-	path_tokens = tokenize_path(&shell);
+	path_tokens = tokenize_path(shell);
 	for (i = 0; path_tokens[i] != NULL; i++)
 	{
-		full_path = malloc(str_len(path_tokens[i]) + str_len(shell->command));
+		full_path = malloc(str_len(path_tokens[i]) + str_len(shell->command + 2));
 		if (full_path == NULL)
 		{
 			perror("Memory allocation failure");

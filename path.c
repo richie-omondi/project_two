@@ -11,6 +11,8 @@ int check_file(char *path)
 {
 	struct stat st;
 
+	int retval;
+
 	retval = stat(path, &st);
 
 	if (retval == 0)
@@ -23,9 +25,11 @@ int check_file(char *path)
 		else
 			return (0);
 	}
-	if (retval == -1)
+	else if (retval == -1)
 	{
 			errno = 127;
 			return (127);
 	}
+	else
+		return (-1);
 }

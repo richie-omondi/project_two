@@ -12,10 +12,13 @@ int execute_commands(shell_data *shell)
 	int status;
 	int code = 0;
 
+	char *full_path;
+
 	shell->env = environ;
-
+	full_path = find_executable(shell);
+	if (full_path == NULL)
+		return (-1);
 	child_pid = fork();
-
 	if (child_pid == -1)
 	{
 		perror("Forking error");
