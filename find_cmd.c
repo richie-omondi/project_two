@@ -3,7 +3,6 @@
 /**
  * find_executable - Searches for an executable file
  * in the path
- * @path_tokens: Tokenized PATH directories
  * @shell: Pointer to data inputted containing the command
  * typed
  *
@@ -11,15 +10,25 @@
  * if it exists or NULL if not found
  */
 
-char *find_executable(shell_data *shell)
+int *find_executable(shell_data *shell)
 {
 	char *full_path;
-
 	char **path_tokens;
+	int i, retval = 0;
 
-	int i;
+	if (!shell->command)
+		return (2);
 
+	if (shell->command[0] == '/' || shell->command[0] == '.')
+		return (check_file(shell->command));
+	
 	path_tokens = tokenize_path(shell);
+	if (!path_tokens || !path_tokens[0])
+	{
+		errno = 127;
+		return (127);
+	}
+
 	for (i = 0; path_tokens[i] != NULL; i++)
 	{
 		full_path = malloc(str_len(path_tokens[i]) + str_len(shell->command + 2));
@@ -33,11 +42,12 @@ char *find_executable(shell_data *shell)
 		str_cat(full_path, "/");
 		str_cat(full_path, shell->command);
 
-		if (check_file(full_path) == 0)
-			return (full_path);
+		retval = check_file(full_path);
+		if (retval == 0 || retval == 126)
+			return (retval);
 
 		free(full_path);
 	}
-
-	return (NULL);
+	free(path_tokens);
+	return (retval);
 }
