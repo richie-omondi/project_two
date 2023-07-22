@@ -11,8 +11,6 @@ char *get_env_value(char *env_variable, shell_data *shell)
 {
 	int i, variable_length;
 
-	shell->env = environ;
-
 	if (env_variable == NULL || shell->env == NULL)
 		return (NULL);
 

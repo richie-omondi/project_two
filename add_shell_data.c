@@ -17,6 +17,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av, char **env)
 	shell->exe = av[0];
 	shell->input = NULL;
 	shell->command = NULL;
+	shell->tokens = NULL;
 
 	if (ac == 1)
 		shell->fd = STDIN_FILENO;
@@ -29,7 +30,6 @@ void add_data_to_shell(shell_data *shell, int ac, char **av, char **env)
 			exit(127);
 		}
 	}
-	shell->tokens = NULL;
 	shell->env = _calloc(100, sizeof(char *));
 	if (shell->env == NULL)
 		exit(127);
