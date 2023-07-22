@@ -42,5 +42,5 @@ int execute_commands(shell_data *shell)
 				errno = 128 + WTERMSIG(status);
 		}
 	}
-		return (0);
+	return (0);
 }
