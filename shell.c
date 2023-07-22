@@ -52,7 +52,6 @@ char *read_input(shell_data *shell)
 	int result;
 
 	buffer_size = 0;
-	shell->input = NULL;
 
 	result = getline(&(shell->input), &buffer_size, stdin);
 

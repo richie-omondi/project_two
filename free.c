@@ -13,11 +13,6 @@ void free_shell_data(shell_data *shell)
 		close(shell->fd);
 	if (shell->tokens != NULL)
 		free(shell->tokens);
-	if (shell->input != NULL)
-		free(shell->input);
-	if (shell->command != NULL)
-		free(shell->command);
-	shell->tokens = NULL;
-	shell->input = NULL;
-	shell->command = NULL;
+	if (shell->env != NULL)
+		free(shell->env);
 }

@@ -41,7 +41,6 @@ char **tokenize_path(shell_data *shell)
 			}
 			for (i = 0; i < count; i++)
 				temp[i] = path_tokens[i];
-			free(path_tokens);
 			path_tokens = temp;
 		}
 	}

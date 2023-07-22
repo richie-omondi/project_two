@@ -11,8 +11,6 @@ int execute_commands(shell_data *shell)
 	pid_t child_pid;
 	int status, retval = 0;
 
-	shell->env = environ;
-
 	retval = find_executable(shell);
 
 	if (retval)
