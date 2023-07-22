@@ -45,6 +45,5 @@ char **tokenize_path(shell_data *shell)
 		}
 	}
 	path_tokens[count] = NULL;
-	free(path_copy);
 	return (path_tokens);
 }
