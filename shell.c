@@ -8,12 +8,12 @@
  *
  * Return: 0 on success
  */
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
 	shell_data shell_info = { NULL };
 	shell_data *shell = &shell_info;
 
-	add_data_to_shell(shell, ac, av, env);
+	add_data_to_shell(shell, ac, av);
 	shell_loop(shell);
 
 	return (EXIT_SUCCESS);

@@ -45,9 +45,8 @@ int find_executable(shell_data *shell)
 		retval = check_file(full_path);
 		if (retval == 0 || retval == 126)
 			return (retval);
-
-		free(full_path);
 	}
+	free(full_path);
 	free(path_tokens);
 	return (retval);
 }
