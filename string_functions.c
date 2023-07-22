@@ -50,6 +50,7 @@ char *str_dup(char *string)
 }
 
 /**
+=======
  * str_cpy - Copies the value of one string to
  * another
  * @dest: Pointer to storage of the copied string

@@ -48,7 +48,7 @@ char **split_input(shell_data *shell);
 char **tokenize_path(shell_data *shell);
 int check_file(char *path);
 char *get_env_value(char *env_variable, shell_data *shell);
-char *find_executable(shell_data *shell);
+int *find_executable(shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[], char **env);
 

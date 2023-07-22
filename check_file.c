@@ -17,18 +17,18 @@ int check_file(char *path)
 
 	if (retval == 0)
 	{
-		if (S_ISDIR(st.st_mode) || !(access(path, X_OK)))
+		if (S_ISDIR(st.st_mode) || (access(path, X_OK)))
 		{
-				errno = 126;
-				return (126);
+			errno = 126;
+			return (126);
 		}
 		else
 			return (0);
 	}
 	else if (retval == -1)
 	{
-			errno = 127;
-			return (127);
+		errno = 127;
+		return (127);
 	}
 	else
 		return (-1);

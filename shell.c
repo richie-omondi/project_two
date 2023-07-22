@@ -80,10 +80,7 @@ char **split_input(shell_data *shell)
 {
 	char *token;
 	char **temp;
-	int j;
-
-	int buffer_size = BUFFER_SIZE;
-	int index = 0;
+	int j, index = 0, buffer_size = BUFFER_SIZE;
 
 	shell->tokens = malloc(buffer_size * sizeof(char *));
 
@@ -97,6 +94,7 @@ char **split_input(shell_data *shell)
 	while (token != NULL)
 	{
 		shell->tokens[index] = token;
+		shell->command = shell->tokens[0];
 		index++;
 
 		if (index >= buffer_size)
@@ -112,6 +110,7 @@ char **split_input(shell_data *shell)
 			for (j = 0; j < index; j++)
 				temp[j] = shell->tokens[j];
 			shell->tokens = temp;
+			shell->command = shell->tokens[0];
 		}
 		token = strtok(NULL, DELIMITERS);
 	}
