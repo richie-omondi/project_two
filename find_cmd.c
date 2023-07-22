@@ -10,7 +10,7 @@
  * if it exists or NULL if not found
  */
 
-int *find_executable(shell_data *shell)
+int find_executable(shell_data *shell)
 {
 	char *full_path;
 	char **path_tokens;
@@ -21,7 +21,7 @@ int *find_executable(shell_data *shell)
 
 	if (shell->command[0] == '/' || shell->command[0] == '.')
 		return (check_file(shell->command));
-	
+
 	path_tokens = tokenize_path(shell);
 	if (!path_tokens || !path_tokens[0])
 	{
