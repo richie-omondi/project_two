@@ -18,6 +18,7 @@ int execute_commands(shell_data *shell)
 	if (retval)
 		return (retval);
 	else
+	{
 		child_pid = fork();
 		if (child_pid == -1)
 		{
@@ -26,9 +27,9 @@ int execute_commands(shell_data *shell)
 		}
 		if (child_pid == 0)
 		{
-			code = execve(shell->tokens[0], shell->tokens, shell->env);
+			retval = execve(shell->tokens[0], shell->tokens, shell->env);
 
-			if (code == -1)
+			if (retval == -1)
 			{	
 				perror("./hsh");
 				exit(EXIT_FAILURE);
@@ -42,5 +43,6 @@ int execute_commands(shell_data *shell)
 			else if (WIFSIGNALED(status))
 				errno = 128 + WTERMSIG(status);
 		}
+	}
 		return (0);
 }

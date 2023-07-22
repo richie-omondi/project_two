@@ -10,7 +10,7 @@
  * if it exists or NULL if not found
  */
 
-int *find_executable(shell_data *shell)
+int find_executable(shell_data *shell)
 {
 	char *full_path;
 	char **path_tokens;
