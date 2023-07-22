@@ -43,7 +43,7 @@ typedef struct data
 
 /****** Prototypes *****/
 void shell_loop(shell_data *shell);
-char *read_input(shell_data *shell);
+int read_input(shell_data *shell);
 char **split_input(shell_data *shell);
 char **tokenize_path(shell_data *shell);
 int check_file(char *path);

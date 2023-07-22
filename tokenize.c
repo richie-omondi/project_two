@@ -10,15 +10,17 @@
 
 char **tokenize_path(shell_data *shell)
 {
-	char **path_tokens, *path_copy, *token_path, **temp;
+	char **path_tokens = NULL, *path, *token_path, **temp;
 	char *delimiter = ":";
 
-	int count = 0, buffer_size = 1, i;
+	int buffer_size = BUFFER_SIZE, i, j = 0;
 
-	path_tokens = NULL;
-	path_copy = get_env_value("PATH", shell);
-/******* Error handling ******/
-	token_path = strtok(path_copy, delimiter);
+	path = get_env_value("PATH", shell);
+
+	if (path == NULL)
+		return (NULL);
+
+	token_path = strtok(path, delimiter);
 	path_tokens = malloc(buffer_size * sizeof(char *));/***\n Error handlin***/
 	if (path_tokens == NULL)
 	{
@@ -27,10 +29,10 @@ char **tokenize_path(shell_data *shell)
 	}
 	while (token_path != NULL)
 	{
-		path_tokens[count] = str_dup(token_path);
+		path_tokens[j] = str_dup(token_path);
 		token_path = strtok(NULL, delimiter);
-		count++;
-		if (count >= buffer_size)
+		j++;
+		if (j >= buffer_size)
 		{
 			buffer_size *= 2;
 			temp = malloc(buffer_size * sizeof(char *));
@@ -39,12 +41,11 @@ char **tokenize_path(shell_data *shell)
 				perror("Allocation failure");
 				exit(EXIT_FAILURE);
 			}
-			for (i = 0; i < count; i++)
+			for (i = 0; i < j; i++)
 				temp[i] = path_tokens[i];
 			path_tokens = temp;
 		}
 	}
-	path_tokens[count] = NULL;
-	free(path_copy);
+	path_tokens[j] = NULL;
 	return (path_tokens);
 }

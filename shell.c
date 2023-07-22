@@ -30,12 +30,19 @@ void shell_loop(shell_data *shell)
 {
 	char *shell_sign = "($)";
 
+	int input_length;
+
 	while (1)
 	{
 		print_string(shell_sign);
-		read_input(shell);
-		split_input(shell);
-		execute_commands(shell);
+
+		input_length = read_input(shell);
+		if (input_length >= 1)
+			split_input(shell);
+		if (_strncmp(shell->input, "exit", 4) == 0)
+			break;
+		if (shell->tokens[0] != NULL)
+			execute_commands(shell);
 		free_shell_data(shell);
 	}
 }
@@ -46,7 +53,7 @@ void shell_loop(shell_data *shell)
  *
  * Return: input fed to the shell
  */
-char *read_input(shell_data *shell)
+int read_input(shell_data *shell)
 {
 	size_t buffer_size;
 	int result;
@@ -58,7 +65,10 @@ char *read_input(shell_data *shell)
 	if (result == -1)
 	{
 		if (result == EOF)
+		{
+			write(STDOUT_FILENO, "\n", 1);
 			exit(errno);
+		}
 		else
 		{
 			perror("Read input");
@@ -66,7 +76,7 @@ char *read_input(shell_data *shell)
 		}
 	}
 
-	return (shell->input);
+	return (str_len((shell->input)));
 }
 
 /**
