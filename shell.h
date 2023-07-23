@@ -62,8 +62,8 @@ void free_shell_data(shell_data *shell);
 /******** String functions *******/
 int str_len(char *string);
 char *str_dup(char *string);
-char *str_cpy(char *dest, const char *src);
-char *str_cat(char *str1, char *str2);
+char *str_cpy(char *dest, char *src);
+char *str_cat(char *dest, char *src);
 int _strncmp(char *str1, char *str2, size_t n);
 
 #endif

@@ -82,9 +82,13 @@ int read_input(shell_data *shell)
  */
 char **split_input(shell_data *shell)
 {
-	char *token;
-	char **temp;
-	int j, index = 0, buffer_size = BUFFER_SIZE;
+	int j;
+
+	int index = 0, buffer_size = BUFFER_SIZE;
+	
+	char **temp = NULL;
+
+	char *token = NULL;
 
 	shell->tokens = malloc(buffer_size * sizeof(char *));
 

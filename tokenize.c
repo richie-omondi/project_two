@@ -10,7 +10,7 @@
 
 char **tokenize_path(shell_data *shell)
 {
-	char **path_tokens = NULL, *path, *token_path, **temp;
+	char **path_tokens = NULL, *path = NULL, *token_path = NULL, **temp = NULL;
 	char *delimiter = ":";
 
 	int buffer_size = BUFFER_SIZE, i, j = 0;
@@ -31,7 +31,6 @@ char **tokenize_path(shell_data *shell)
 	while (token_path != NULL)
 	{
 		path_tokens[j] = str_dup(token_path);
-		token_path = strtok(NULL, delimiter);
 		j++;
 		if (j >= buffer_size)
 		{
@@ -46,6 +45,8 @@ char **tokenize_path(shell_data *shell)
 				temp[i] = path_tokens[i];
 			path_tokens = temp;
 		}
+		
+		token_path = strtok(NULL, delimiter);
 	}
 	path_tokens[j] = NULL;
 	return (path_tokens);

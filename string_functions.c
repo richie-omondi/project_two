@@ -11,7 +11,7 @@ int str_len(char *string)
 {
 	int len = 0;
 
-	while (*(string + len))
+	while (string[len])
 		len++;
 	return (len);
 }
@@ -36,7 +36,7 @@ char *str_dup(char *string)
 	for (i = 0; *(string + i); i++)
 		length++;
 
-	dup = malloc(sizeof(char) * (length + 1));
+	dup = malloc(sizeof(char) * (length + 10));
 
 	if (dup == NULL)
 		return (NULL);
@@ -50,61 +50,43 @@ char *str_dup(char *string)
 }
 
 /**
-=======
- * str_cpy - Copies the value of one string to
- * another
- * @dest: Pointer to storage of the copied string
- * @src: Pointer to the string being copied
- *
- * Return: Returns the string copied
+ * *str_cpy -  copies the string pointed to by src
+ * @dest: char type string
+ * @src: char type string
+ * Description: Copy the string pointed to by pointer `src` to
+ * the buffer pointed to by `dest`
+ * Return: Pointer to dest
  */
 
-char *str_cpy(char *dest, const char *src)
+char *str_cpy(char *dest, char *src)
 {
-	char *original_dest = dest;
+	int i = -1;
 
-	while (*src != '\0')
-	{
-		*dest = *src;
-		dest++;
-		src++;
-	}
-	*dest = '\0';
-	return (original_dest);
+	do {
+		i++;
+		dest[i] = src[i];
+	} while (src[i] != '\0');
+
+	return (dest);
 }
 
 /**
- * str_cat - concatenates two strings
- * @s1: Pointer to initail string value
- * @s2: Pointer to the string being appended
- *
- * Return: A string that post the concatenation
+ * *str_cat - concatenates @src to @dest
+ * @src: the source string to append to @dest
+ * @dest: the destiation string to be concatenated upon
+ * Return: char
  */
 
-char *str_cat(char *s1, char *s2)
+char *str_cat(char *dest, char *src)
 {
-	ssize_t len1 = 0, len2 = 0;
+	int index = 0;
+	int dest_len = 0;
 
-	char *res;
-
-	if (s1 != NULL)
-		len1 = str_len(s1);
-	if (s2 != NULL)
-		len2 = str_len(s2);
-	res = (char *)malloc(len1 + len2 +1);
-	if (res == NULL)
-	{
-		perror("Memory allocation failure");
-		exit(EXIT_FAILURE);
-	}
-	if (s1 != NULL)
-		str_cpy(res, s1);
-	else
-		*res = '\0';
-	if (s2 != NULL)
-		str_cpy(res + len1, s2);
-
-	return (res);
+	while (dest[index++])
+		dest_len++;
+	for (index = 0; src[index]; index++)
+		dest[dest_len++] = src[index];
+	return (dest);
 }
 
 /**
