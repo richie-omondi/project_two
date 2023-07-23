@@ -21,7 +21,7 @@ int find_executable(shell_data *shell)
 	if (shell->command[0] == '/' || shell->command[0] == '.')
 		return (check_file(shell->command));
 
-	shell->tokens[0] = str_cat("/", shell->command);
+	shell->tokens[0] = str_concat(str_dup("/"), shell->command);
 
 	if (!shell->tokens[0])
 		return (2);
