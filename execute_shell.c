@@ -9,38 +9,31 @@
 int execute_commands(shell_data *shell)
 {
 	pid_t child_pid;
-	int status, retval = 0;
+	int status, code = 0;
 
-	retval = find_executable(shell);
-
-	if (retval)
-		return (retval);
-	else
+	child_pid = fork();
+	if (child_pid == -1)
 	{
-		child_pid = fork();
-		if (child_pid == -1)
+		perror("Forking error");
+		exit(EXIT_FAILURE);
+	}
+	if (child_pid == 0)
+	{
+		code = execve(shell->tokens[0], shell->tokens, shell->env);
+
+		if (code == -1)
 		{
-			perror("Forking error");
+			perror("./hsh");
 			exit(EXIT_FAILURE);
 		}
-		if (child_pid == 0)
-		{
-			retval = execve(shell->tokens[0], shell->tokens, shell->env);
-
-			if (retval == -1)
-			{	
-				perror("./hsh");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			wait(&status);
-			if (WIFEXITED(status))
-				errno = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				errno = 128 + WTERMSIG(status);
-		}
+	}
+	else
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			errno = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			errno = 128 + WTERMSIG(status);
 	}
 	return (0);
 }

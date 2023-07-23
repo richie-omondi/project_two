@@ -33,13 +33,12 @@ void shell_loop(shell_data *shell)
 	while (1)
 	{
 		print_string(shell_sign);
-		
 		input_length = read_input(shell);
 		if (input_length >= 1)
 		{
 			split_input(shell);
 			if (shell->tokens[0] != NULL)
-				execute_commands(shell);
+				find_and_execute(shell);
 		}
 		free_shell_data(shell);
 	}
@@ -71,7 +70,7 @@ int read_input(shell_data *shell)
 		}
 	}
 
-	return str_len(shell->input);
+	return (str_len(shell->input));
 }
 
 /**
@@ -85,7 +84,7 @@ char **split_input(shell_data *shell)
 	int j;
 
 	int index = 0, buffer_size = BUFFER_SIZE;
-	
+
 	char **temp = NULL;
 
 	char *token = NULL;
