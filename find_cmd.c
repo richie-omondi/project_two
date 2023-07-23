@@ -12,10 +12,8 @@
 
 int find_executable(shell_data *shell)
 {
-	char **path_tokens = NULL, *delimiter_dup = NULL;
-	int i = 0, retval = 0, buffer_size = BUFFER_SIZE;
-
-	delimiter_dup = str_dup("/");
+	char **path_tokens = NULL;
+	int i = 0, retval = 0;
 
 	if (!shell->command)
 		return (2);
@@ -23,19 +21,9 @@ int find_executable(shell_data *shell)
 	if (shell->command[0] == '/' || shell->command[0] == '.')
 		return (check_file(shell->command));
 
-	if (shell->tokens[0] != NULL)
-	{
-		buffer_size += BUFFER_SIZE;
-		shell->tokens[0] = malloc(buffer_size * sizeof(char *));
-		if (!shell->tokens)
-		{
-			perror("Error reallocating malloc for tokens");
-			exit(EXIT_FAILURE);
-		}
-		else
-			shell->tokens[0] = str_cat(delimiter_dup, shell->command);
-	}
-	else
+	shell->tokens[0] = str_cat("/", shell->command);
+
+	if (!shell->tokens[0])
 		return (2);
 
 	path_tokens = tokenize_path(shell);
@@ -58,7 +46,6 @@ int find_executable(shell_data *shell)
 			return (retval);
 		}
 	}
-	free(delimiter_dup);
 	free(path_tokens);
 	return (retval);
 }
