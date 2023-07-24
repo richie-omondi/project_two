@@ -59,6 +59,9 @@ char *_itoa(int n);
 
 /******* Print functions ********/
 int print_string(char *s);
+int print_e(char *string);
+int print_error(int error, shell_data *shell);
+int _strcmp(char *s1, char *s2);
 
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);

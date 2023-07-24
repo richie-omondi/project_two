@@ -131,6 +131,43 @@ int is_cmd(shell_data *shell)
 	{
 		return (j);
 	}
-	get_error(datash, 127);
+	print_error(127, shell);
 	return (-1);
+}
+
+/**
+ * check_execute_permissions - chec if user can execute file
+ * @path: path to check
+ * @shell: data fed to the shell
+ *
+ * Return: 1 if there is an error, 0 if not
+ */
+int check_execute_permissions(char *path, shell_data *shell)
+{
+	if (path == NULL)
+	{
+		print_error(127, shell);
+		return (1);
+	}
+
+	if (str_cmp(shell->tokens[0], path) != 0)
+	{
+		if (access(path, X_OK) == -1)
+		{
+			print_error(126, shell);
+			free(path);
+			return (1);
+		}
+		free(path);
+	}
+	else
+	{
+		if (access(shell->tokens[0], X_OK) == -1)
+		{
+			print_error(126, shell);
+			return (1);
+		}
+	}
+
+	return (0);
 }

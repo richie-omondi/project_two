@@ -17,7 +17,7 @@ int print_e(char *string)
  * @shell: data fed to the shell
  * @error: error to be printed
  *
- * Return: the number of bytes writed or .
+ * Return: number of bytes written
  * On error, -1 is returned, and errno is set appropriately.
  */
 int print_error(int error, shell_data *shell)
