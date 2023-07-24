@@ -43,6 +43,8 @@ typedef struct data
 } shell_data;
 
 /****** Prototypes *****/
+
+/****** Implement the shell ******/
 void shell_loop(shell_data *shell);
 int read_input(shell_data *shell);
 char **split_input(shell_data *shell);
@@ -56,6 +58,7 @@ void add_data_to_shell(shell_data *shell, int ac, char *av[]);
 char *malloc_string(char *string);
 int int_length(int n);
 char *_itoa(int n);
+int check_execute_permissions(char *path, shell_data *shell);
 
 /******* Print functions ********/
 int print_string(char *s);

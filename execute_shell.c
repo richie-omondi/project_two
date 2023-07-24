@@ -11,21 +11,31 @@ int execute_commands(shell_data *shell)
 	pid_t child_pid;
 	int status, code = 0;
 
-	child_pid = fork();
-	if (child_pid == -1)
+	char *path = NULL;
+
+	code = is_cmd(shell);
+	if (code == -1)
+		return (1);
+	if (code == 0)
 	{
-		perror("Forking error");
-		exit(EXIT_FAILURE);
+		path = handle_path(shell);
+		if (check_execute_permissions(path, shell) == 1)
+			return (1);
 	}
+
+	child_pid = fork();
 	if (child_pid == 0)
 	{
-		code = execve(shell->command, shell->tokens, shell->env);
-
-		if (code == -1)
-		{
-			perror("./hsh");
-			exit(EXIT_FAILURE);
-		}
+		if (code == 0)
+			path = handle_path(shell);
+		else
+			path = shell->tokens[0];
+		execve(path + code, shell->tokens, shell->env);
+	}
+	else if (child_pid < 0)
+	{
+		perror(shell->exe);
+		return (1);
 	}
 	else
 	{

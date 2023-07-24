@@ -5,7 +5,6 @@
  * @shell: pointer to the struct
  * @ac: number of arguments
  * @av: array of strings as arguments
- * @env: environment variables
  *
  * Return: void
  */
