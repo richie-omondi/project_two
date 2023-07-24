@@ -53,6 +53,9 @@ char *get_env_value(char *env_variable, shell_data *shell);
 int find_and_execute(shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[]);
+char *malloc_string(char *string);
+int int_length(int n);
+char *_itoa(int n);
 
 /******* Print functions ********/
 int print_string(char *s);
