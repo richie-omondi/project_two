@@ -19,7 +19,7 @@ int execute_commands(shell_data *shell)
 	}
 	if (child_pid == 0)
 	{
-		code = execve(shell->tokens[0], shell->tokens, shell->env);
+		code = execve(shell->command, shell->tokens, shell->env);
 
 		if (code == -1)
 		{

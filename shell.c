@@ -30,7 +30,7 @@ void shell_loop(shell_data *shell)
 	char *shell_sign = "($)";
 	int input_length;
 
-	while (1)
+	while (++(shell->no_of_executions))
 	{
 		print_string(shell_sign);
 		input_length = read_input(shell);

@@ -46,7 +46,6 @@ int find_and_execute(shell_data *shell)
 			if (retval == 0 || retval == 126)
 			{
 				errno = 0;
-				free(shell->tokens[0]);
 				shell->tokens[0] = str_dup(path_tokens[i]);
 				execute_commands(shell);
 			}

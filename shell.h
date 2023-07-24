@@ -29,6 +29,7 @@ extern char **environ;
  * @fd: file descriptor
  * @tokens: tokenized input
  * @env: environ
+ * @no_of_executions: no of shhell executions
  */
 typedef struct data
 {
@@ -37,6 +38,7 @@ typedef struct data
 	char *command;
 	char **tokens;
 	char **env;
+	int no_of_executions;
 	int fd;
 } shell_data;
 
@@ -44,13 +46,13 @@ typedef struct data
 void shell_loop(shell_data *shell);
 int read_input(shell_data *shell);
 char **split_input(shell_data *shell);
-char **tokenize_path(shell_data *shell);
+char *handle_path(shell_data *shell);
 int check_file(char *path);
+int is_cmd(shell_data *shell);
 char *get_env_value(char *env_variable, shell_data *shell);
 int find_and_execute(shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[]);
-char *str_concat(char *string1, char *string2);
 
 /******* Print functions ********/
 int print_string(char *s);

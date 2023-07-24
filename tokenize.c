@@ -1,53 +1,136 @@
 #include "shell.h"
 
 /**
- * tokenize_path - Function that splits path variables
+ * check_path - checks if the current path is searchable
+ * @path: pointer to the path
+ *
+ * Return: 1 if found, 0 if not
+ */
+int check_path(char *path)
+{
+	int i = 0;
+	int found_colon = 0;
+
+	while (path[i])
+	{
+		if (path[i] == ':')
+		{
+			found_colon = 1;
+			break;
+		}
+		i++;
+	}
+
+	if (found_colon)
+		return (1);
+	else
+		return (0);
+}
+
+/**
+ * handle_path - Function that splits path variables
  * to individual strings
  * @shell: Struct containing data fed to the shell
  *
  * Return: A string representing tokenized path variables
  */
 
-char **tokenize_path(shell_data *shell)
+char *handle_path(shell_data *shell)
 {
-	char **path_tokens = NULL, *path = NULL, *token_path = NULL, **temp = NULL;
-	char *delimiter = ":";
+	struct stat sb;
 
-	int buffer_size = BUFFER_SIZE, i, j = 0;
+	char *path_tokens = NULL, *path = NULL, *tokens = NULL,
+	     *path_copy = NULL, *delimiter = ":";
+	int buffer_size = BUFFER_SIZE;
 
 	path = get_env_value("PATH", shell);
-
 	if (path == NULL)
 		return (NULL);
-
-	token_path = strtok(path, delimiter);
-
-	path_tokens = _calloc(100, buffer_size * sizeof(char *));
-	if (path_tokens == NULL)
+	else
 	{
-		perror("Memory allocation failure");
-		exit(EXIT_FAILURE);
-	}
-	while (token_path != NULL)
-	{
-		path_tokens[j] = token_path;
-		j++;
-		if (j >= buffer_size)
+		path_copy = str_dup(path);
+		tokens = strtok(path_copy, delimiter);
+		while (tokens != NULL)
 		{
-			buffer_size *= 2;
-			temp = malloc(buffer_size * sizeof(char *));
-			if (temp == NULL)
+			if (check_path(path))
 			{
-				perror("Allocation failure");
+				if (stat(shell->command, &sb) == 0)
+					return (shell->command);
+			}
+			path_tokens = _calloc(100, buffer_size * sizeof(char *));
+			if (path_tokens == NULL)
+			{
+				perror("Path tokens malloc failure");
 				exit(EXIT_FAILURE);
 			}
-			for (i = 0; i < j; i++)
-				temp[i] = path_tokens[i];
-			path_tokens = temp;
+			str_cpy(path_tokens, tokens);
+			str_cat(path_tokens, "/");
+			str_cat(path_tokens, shell->command);
+			str_cat(path_tokens, "\0");
+
+			if (stat(path_tokens, &sb) == 0)
+			{
+				free(path_copy);
+					return (path_tokens);
+			}
+			free(path_tokens);
+			tokens = strtok(NULL, delimiter);
 		}
-		
-		token_path = strtok(NULL, delimiter);
+		free(path_copy);
+
+		if (stat(shell->command, &sb) == 0)
+			return (shell->command);
+		return (NULL);
 	}
-	path_tokens[j] = NULL;
-	return (path_tokens);
+	if (shell->command[0] == '/')
+	{
+		if (stat(shell->command, &sb) == 0)
+			return (shell->command);
+	}
+	return (NULL);
+}
+
+/**
+ * is_cmd - checks if the file is an executable
+ * @shell: data fed to the shell
+ *
+ * Return: 0
+ */
+int is_cmd(shell_data *shell)
+{
+	struct stat sb;
+	int j = 0;
+	char *cmd = NULL;
+
+	cmd = shell->tokens[0];
+	for (j = 0; cmd[j]; j++)
+	{
+		if (cmd[j] == '.')
+		{
+			if (cmd[j + 1] == '.')
+				return (0);
+			if (cmd[j + 1] == '/')
+				continue;
+			else
+				break;
+		}
+		else if (cmd[j] == '/' && j != 0)
+		{
+			if (cmd[j + 1] == '.')
+				continue;
+			j++;
+			break;
+		}
+		else
+			break;
+	}
+	if (j == 0)
+		return (0);
+
+	if (stat(cmd + j, &sb) == 0)
+	{
+		return (j);
+	}
+	get_error(datash, 127);
+	return (-1);
 }

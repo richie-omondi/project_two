@@ -16,6 +16,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av)
 	shell->input = NULL;
 	shell->command = NULL;
 	shell->tokens = NULL;
+	shell->no_of_executions = 0;
 
 	if (ac == 1)
 		shell->fd = STDIN_FILENO;
