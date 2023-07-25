@@ -11,7 +11,7 @@ char *malloc_string(char *string)
 	int length = 0;
 	char *space = NULL;
 
-	length = str_len(str);
+	length = str_len(string);
 	space = malloc(sizeof(char) * (length + 1));
 	space[length] = '\0';
 	for (i = 0; string[i] != '\0'; i++)

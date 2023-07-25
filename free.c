@@ -13,4 +13,6 @@ void free_shell_data(shell_data *shell)
 		close(shell->fd);
 	if (shell->tokens != NULL)
 		free(shell->tokens);
+	if (shell->env != NULL)
+		free(shell->env);
 }

@@ -44,5 +44,7 @@ int print_error(int error, shell_data *shell)
 		print_e(shell->command);
 		print_e(": Permission denied\n");
 	}
+	free(string);
 	return (0);
+
 }

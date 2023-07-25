@@ -71,7 +71,7 @@ char *handle_path(shell_data *shell)
 			if (stat(path_tokens, &sb) == 0)
 			{
 				free(path_copy);
-					return (path_tokens);
+				return (path_tokens);
 			}
 			free(path_tokens);
 			tokens = strtok(NULL, delimiter);
@@ -131,7 +131,7 @@ int is_cmd(shell_data *shell)
 	{
 		return (j);
 	}
-	print_error(127, shell);
+	/*print_error(127, shell); */
 	return (-1);
 }
 

@@ -46,13 +46,12 @@ typedef struct data
 
 /****** Implement the shell ******/
 void shell_loop(shell_data *shell);
-int read_input(shell_data *shell);
+char *read_input(shell_data *shell);
 char **split_input(shell_data *shell);
 char *handle_path(shell_data *shell);
 int check_file(char *path);
 int is_cmd(shell_data *shell);
 char *get_env_value(char *env_variable, shell_data *shell);
-int find_and_execute(shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[]);
 char *malloc_string(char *string);
@@ -64,7 +63,7 @@ int check_execute_permissions(char *path, shell_data *shell);
 int print_string(char *s);
 int print_e(char *string);
 int print_error(int error, shell_data *shell);
-int _strcmp(char *s1, char *s2);
+int str_cmp(char *s1, char *s2);
 
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);
