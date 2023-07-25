@@ -4,16 +4,15 @@
  * main - Entry point for the program
  * @ac: argument count
  * @av: array containing arguments fed to the shell
- * @env: environment variables
  *
  * Return: 0 on success
  */
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
 	shell_data shell_info = { NULL };
 	shell_data *shell = &shell_info;
 
-	add_data_to_shell(shell, ac, av, env);
+	add_data_to_shell(shell, ac, av);
 	shell_loop(shell);
 
 	return (EXIT_SUCCESS);
@@ -35,14 +34,15 @@ void shell_loop(shell_data *shell)
 	while (1)
 	{
 		print_string(shell_sign);
-
 		input_length = read_input(shell);
 		if (input_length >= 1)
+		{
 			split_input(shell);
-		if (_strncmp(shell->input, "exit", 4) == 0)
-			break;
-		if (shell->tokens[0] != NULL)
-			execute_commands(shell);
+			if (_strncmp(shell->tokens[0], "exit", 4) == 0)
+				exit_shell(shell);
+			if (shell->tokens[0] != NULL)
+				find_and_execute(shell);
+		}
 		free_shell_data(shell);
 	}
 }
@@ -87,8 +87,10 @@ int read_input(shell_data *shell)
  */
 char **split_input(shell_data *shell)
 {
-	char *token;
-	char **temp;
+	char *token = NULL;
+
+	char **temp = NULL;
+
 	int j, index = 0, buffer_size = BUFFER_SIZE;
 
 	shell->tokens = malloc(buffer_size * sizeof(char *));
