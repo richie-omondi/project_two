@@ -58,12 +58,14 @@ char *malloc_string(char *string);
 int int_length(int n);
 char *_itoa(int n);
 int check_execute_permissions(char *path, shell_data *shell);
+int exit_shell(shell_data *shell);
 
 /******* Print functions ********/
 int print_string(char *s);
 int print_e(char *string);
 int print_error(int error, shell_data *shell);
 int str_cmp(char *s1, char *s2);
+void print_current_environment(shell_data *shell);
 
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);
@@ -75,5 +77,6 @@ char *str_dup(char *string);
 char *str_cpy(char *dest, char *src);
 char *str_cat(char *dest, char *src);
 int _strncmp(char *str1, char *str2, size_t n);
+int _atoi(char *s);
 
 #endif

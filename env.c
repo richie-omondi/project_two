@@ -24,3 +24,20 @@ char *get_env_value(char *env_variable, shell_data *shell)
 	}
 	return (NULL);
 }
+
+/**
+ * print_current_environment - prints the current environment
+ * @shell: struct containing data fed to the shell
+ *
+ * Return: void
+ */
+void print_current_environment(shell_data *shell)
+{
+	int i = 0;
+
+	while (shell->env[i] != NULL)
+	{
+		print_string(shell->env[i]);
+		print_string("\n");
+	}
+}

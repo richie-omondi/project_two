@@ -8,7 +8,7 @@
  */
 int check_path(char *path)
 {
-	int i = 0;
+	int i;
 	int found_colon = 0;
 
 	while (path[i])
@@ -18,7 +18,7 @@ int check_path(char *path)
 			found_colon = 1;
 			break;
 		}
-		i++;
+		i += 1;
 	}
 
 	if (found_colon)

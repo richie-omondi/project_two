@@ -31,7 +31,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av)
 	shell->env[i] = NULL;
 
 	if (shell->env == NULL)
-		exit (127);
+		exit_shell(127);
 
 	if (ac == 1)
 		shell->fd = STDIN_FILENO;

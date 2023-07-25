@@ -45,5 +45,5 @@ int execute_commands(shell_data *shell)
 		else if (WIFSIGNALED(status))
 			errno = 128 + WTERMSIG(status);
 	}
-	return (0);
+	return (1);
 }
