@@ -8,7 +8,7 @@
  */
 int check_path(char *path)
 {
-	int i;
+	int i = 0;
 	int found_colon = 0;
 
 	while (path[i])
@@ -18,7 +18,7 @@ int check_path(char *path)
 			found_colon = 1;
 			break;
 		}
-		i += 1;
+		i++;
 	}
 
 	if (found_colon)
@@ -44,9 +44,8 @@ char *handle_path(shell_data *shell)
 	int buffer_size = BUFFER_SIZE;
 
 	path = get_env_value("PATH", shell);
-	if (path == NULL)
-		return (NULL);
-	else
+	
+	if (path)
 	{
 		path_copy = str_dup(path);
 		tokens = strtok(path_copy, delimiter);
@@ -96,7 +95,7 @@ char *handle_path(shell_data *shell)
  *
  * Return: 0
  */
-int is_cmd(shell_data *shell)
+int is_exe(shell_data *shell)
 {
 	struct stat sb;
 	int j = 0;

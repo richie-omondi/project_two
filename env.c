@@ -16,28 +16,11 @@ char *get_env_value(char *env_variable, shell_data *shell)
 
 	variable_length = str_len(env_variable);
 
-	for (i = 0; shell->env[i] != NULL; i++)
+	for (i = 0; shell->env[i]; i++)
 	{
 		if (_strncmp(env_variable, shell->env[i], variable_length) &&
 				shell->env[i][variable_length] == '=')
 			return (shell->env[i] + variable_length + 1);
 	}
 	return (NULL);
-}
-
-/**
- * print_current_environment - prints the current environment
- * @shell: struct containing data fed to the shell
- *
- * Return: void
- */
-void print_current_environment(shell_data *shell)
-{
-	int i = 0;
-
-	while (shell->env[i] != NULL)
-	{
-		print_string(shell->env[i]);
-		print_string("\n");
-	}
 }

@@ -12,6 +12,7 @@ int main(int ac, char **av)
 	shell_data shell_info = { NULL };
 	shell_data *shell = &shell_info;
 
+	signal(SIGINT, handle_signal);
 	add_data_to_shell(shell, ac, av);
 	shell_loop(shell);
 
@@ -27,16 +28,23 @@ int main(int ac, char **av)
 */
 void shell_loop(shell_data *shell)
 {
+	int input_length = 0;
+
 	char *shell_sign = "($)";
 
 	while (++(shell->no_of_executions))
 	{
 		print_string(shell_sign);
-		read_input(shell);
-		split_input(shell);
-		execute_commands(shell);
-		free_shell_data(shell);
+		input_length = read_input(shell);
+		if (input_length >= 1)
+		{
+			split_input(shell);
+
+			if (shell->tokens[0])
+				execute_commands(shell);
+		}
 	}
+	free_shell_data(shell);
 }
 
 /**
@@ -45,7 +53,7 @@ void shell_loop(shell_data *shell)
  *
  * Return: input fed to the shell
  */
-char *read_input(shell_data *shell)
+int read_input(shell_data *shell)
 {
 	size_t buffer_size;
 	int result;
@@ -57,15 +65,14 @@ char *read_input(shell_data *shell)
 	if (result == -1)
 	{
 		if (result == EOF)
-			exit(errno);
-		else
 		{
-			perror("Read input");
-			exit(EXIT_FAILURE);
+			free_shell_data(shell);
+			exit(errno);
 		}
+		else
+			exit(EXIT_FAILURE);
 	}
-
-	return (shell->input);
+	return (str_len(shell->input));
 }
 
 /**
@@ -87,10 +94,8 @@ char **split_input(shell_data *shell)
 	shell->tokens = malloc(buffer_size * sizeof(char *));
 
 	if (!(shell->tokens))
-	{
-		perror("malloc");
 		exit(EXIT_FAILURE);
-	}
+
 	token = strtok(shell->input, DELIMITERS);
 
 	while (token != NULL)
@@ -105,10 +110,7 @@ char **split_input(shell_data *shell)
 			temp = malloc(buffer_size * sizeof(char *));
 
 			if (!temp)
-			{
-				perror("malloc");
 				exit(EXIT_FAILURE);
-			}
 			for (j = 0; j < index; j++)
 				temp[j] = shell->tokens[j];
 			shell->tokens = temp;
@@ -119,3 +121,24 @@ char **split_input(shell_data *shell)
 	shell->tokens[index] = NULL;
 	return (shell->tokens);
 }
+
+/**
+ * handle_signal - prints a new prompt upon a signal
+ * @signal: signal
+ *
+ * Return: void
+ */
+void handle_signal(int signal)
+{
+	char *shell_sign = "($)";
+
+	if (signal == SIGINT)
+	{
+		print_string("\n");
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, shell_sign, 3);
+
+		fflush(stdout);
+	}
+}
+

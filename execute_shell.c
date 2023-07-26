@@ -13,7 +13,7 @@ int execute_commands(shell_data *shell)
 
 	char *path = NULL;
 
-	code = is_cmd(shell);
+	code = is_exe(shell);
 	if (code == -1)
 		return (1);
 	if (code == 0)
