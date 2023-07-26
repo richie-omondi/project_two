@@ -18,8 +18,6 @@ int execute_commands(shell_data *shell)
 		return (1);
 	if (code == 0)
 	{
-		if (path != NULL)
-			free(path);
 		path = handle_path(shell);
 		if (check_execute_permissions(path, shell) == 1)
 			return (1);
@@ -29,17 +27,10 @@ int execute_commands(shell_data *shell)
 	if (child_pid == 0)
 	{
 		if (code == 0)
-		{
-			if (path != NULL)
-				free(path);
-
 			path = handle_path(shell);
-		}
 		else
 			path = shell->tokens[0];
 		execve(path + code, shell->tokens, shell->env);
-	}
-
 	}
 	else if (child_pid < 0)
 	{
@@ -54,7 +45,5 @@ int execute_commands(shell_data *shell)
 		else if (WIFSIGNALED(status))
 			errno = 128 + WTERMSIG(status);
 	}
-	if (path != NULL)
-		free(path);
 	return (1);
 }

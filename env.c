@@ -1,26 +1,50 @@
 #include "shell.h"
 
 /**
- * get_env_value - Gets the value of the environment variable
- * @env_variable: environment variable
- * @shell: struct containing data fed to the shell
+ * compare_env_var - compares environemnt variable name
+ * with the name passed.
+ * @variable: name of the environment variable
+ * @name: name passed
  *
- * Return: value of the variable or NULL
+ * Return: 0 if not equal, another value if they are.
  */
-char *get_env_value(char *env_variable, shell_data *shell)
+int compare_env_var(char *variable, char *name)
 {
-	int i, variable_length;
+	int i = 0;
 
-	if (env_variable == NULL || shell->env == NULL)
-		return (NULL);
-
-	variable_length = str_len(env_variable);
-
-	for (i = 0; shell->env[i] != NULL; i++)
+	for (i = 0; variable[i] != '='; i++)
 	{
-		if (_strncmp(env_variable, shell->env[i], variable_length) &&
-				shell->env[i][variable_length] == '=')
-			return (shell->env[i] + variable_length + 1);
+		if (variable[i] != name[i])
+		{
+			return (0);
+		}
 	}
-	return (NULL);
+
+	return (i + 1);
+}
+
+/**
+ * get_env_value - get the environment variable value
+ * @variable: name of the environment variable
+ * @shell: struct containing environemnt data
+ *
+ * Return: value of the environment variable.
+ * Else, return NULL.
+ */
+char *get_env_value(char *variable, shell_data *shell)
+{
+	char *variable_pointer = NULL;
+	int i = 0, result = 0;
+
+	for (i = 0; shell->env[i]; i++)
+	{
+		result = compare_env_var(shell->env[i], variable);
+		if (result)
+		{
+			variable_pointer = shell->env[i];
+			break;
+		}
+	}
+
+	return (variable_pointer + result);
 }

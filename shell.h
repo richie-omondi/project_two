@@ -29,6 +29,7 @@ extern char **environ;
  * @fd: file descriptor
  * @tokens: tokenized input
  * @env: environ
+ * @no_of_executions: no of shhell executions
  */
 typedef struct data
 {
@@ -36,28 +37,35 @@ typedef struct data
 	char *input;
 	char *command;
 	char **tokens;
-	char *path;
 	char **env;
+	int no_of_executions;
 	int fd;
 } shell_data;
 
 /****** Prototypes *****/
+
+/****** Implement the shell ******/
 void shell_loop(shell_data *shell);
 int read_input(shell_data *shell);
 char **split_input(shell_data *shell);
-char **tokenize_path(shell_data *shell);
+char *handle_path(shell_data *shell);
 int check_file(char *path);
-char *get_env_value(char *env_variable, shell_data *shell);
-int find_and_execute(shell_data *shell);
+int is_exe(shell_data *shell);
+int compare_env_var(char *variable, char *name);
+char *get_env_value(char *variable, shell_data *shell);
 int execute_commands(shell_data *shell);
 void add_data_to_shell(shell_data *shell, int ac, char *av[]);
-void exit_shell(shell_data *shell);
-void store_line(char **lineptr, char *buf, size_t *size, size_t buf_size);
-ssize_t _getline(char **lineptr, size_t *size, FILE *fp);
-char *str_tok(char *str, const char *delim);
+char *malloc_string(char *string);
+int int_length(int n);
+char *_itoa(int n);
+int check_execute_permissions(char *path, shell_data *shell);
+void handle_signal(int signal);
 
 /******* Print functions ********/
 int print_string(char *s);
+int print_e(char *string);
+int print_error(int error, shell_data *shell);
+int str_cmp(char *s1, char *s2);
 
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);
@@ -69,8 +77,5 @@ char *str_dup(char *string);
 char *str_cpy(char *dest, char *src);
 char *str_cat(char *dest, char *src);
 int _strncmp(char *str1, char *str2, size_t n);
-char *str_concat(char *string1, char *string2);
-int is_digit(int i);
-char *str_chr(const char *str, char c);
 
 #endif

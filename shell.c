@@ -12,6 +12,7 @@ int main(int ac, char **av)
 	shell_data shell_info = { NULL };
 	shell_data *shell = &shell_info;
 
+	signal(SIGINT, handle_signal);
 	add_data_to_shell(shell, ac, av);
 	shell_loop(shell);
 
@@ -27,24 +28,23 @@ int main(int ac, char **av)
 */
 void shell_loop(shell_data *shell)
 {
+	int input_length = 0;
+
 	char *shell_sign = "($)";
 
-	int input_length;
-
-	while (1)
+	while (++(shell->no_of_executions))
 	{
 		print_string(shell_sign);
 		input_length = read_input(shell);
 		if (input_length >= 1)
 		{
 			split_input(shell);
-			if (_strncmp(shell->tokens[0], "exit", 4) == 0)
-				exit_shell(shell);
-			if (shell->tokens[0] != NULL)
-				find_and_execute(shell);
+
+			if (shell->tokens[0])
+				execute_commands(shell);
 		}
-		free_shell_data(shell);
 	}
+	free_shell_data(shell);
 }
 
 /**
@@ -60,23 +60,19 @@ int read_input(shell_data *shell)
 
 	buffer_size = 0;
 
-	result = _getline(&(shell->input), &buffer_size, stdin);
+	result = getline(&(shell->input), &buffer_size, stdin);
 
 	if (result == -1)
 	{
 		if (result == EOF)
 		{
-			write(STDOUT_FILENO, "\n", 1);
+			free_shell_data(shell);
 			exit(errno);
 		}
 		else
-		{
-			perror("Read input");
 			exit(EXIT_FAILURE);
-		}
 	}
-
-	return (str_len((shell->input)));
+	return (str_len(shell->input));
 }
 
 /**
@@ -87,20 +83,20 @@ int read_input(shell_data *shell)
  */
 char **split_input(shell_data *shell)
 {
-	char *token = NULL;
+	int j;
+
+	int index = 0, buffer_size = BUFFER_SIZE;
 
 	char **temp = NULL;
 
-	int j, index = 0, buffer_size = BUFFER_SIZE;
+	char *token = NULL;
 
 	shell->tokens = malloc(buffer_size * sizeof(char *));
 
 	if (!(shell->tokens))
-	{
-		perror("malloc");
 		exit(EXIT_FAILURE);
-	}
-	token = str_tok(shell->input, DELIMITERS);
+
+	token = strtok(shell->input, DELIMITERS);
 
 	while (token != NULL)
 	{
@@ -114,17 +110,34 @@ char **split_input(shell_data *shell)
 			temp = malloc(buffer_size * sizeof(char *));
 
 			if (!temp)
-			{
-				perror("malloc");
 				exit(EXIT_FAILURE);
-			}
 			for (j = 0; j < index; j++)
 				temp[j] = shell->tokens[j];
 			shell->tokens = temp;
 			shell->command = shell->tokens[0];
 		}
-		token = str_tok(NULL, DELIMITERS);
+		token = strtok(NULL, DELIMITERS);
 	}
 	shell->tokens[index] = NULL;
 	return (shell->tokens);
+}
+
+/**
+ * handle_signal - prints a new prompt upon a signal
+ * @signal: signal
+ *
+ * Return: void
+ */
+void handle_signal(int signal)
+{
+	char *shell_sign = "($)";
+
+	if (signal == SIGINT)
+	{
+		print_string("\n");
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, shell_sign, 3);
+
+		fflush(stdout);
+	}
 }

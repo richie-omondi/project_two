@@ -50,13 +50,12 @@ char *str_dup(char *string)
 }
 
 /**
-=======
- * str_cpy - Copies the value of one string to
- * another
- * @dest: Pointer to storage of the copied string
- * @src: Pointer to the string being copied
- *
- * Return: Returns the string copied
+ * *str_cpy -  copies the string pointed to by src
+ * @dest: char type string
+ * @src: char type string
+ * Description: Copy the string pointed to by pointer `src` to
+ * the buffer pointed to by `dest`
+ * Return: Pointer to dest
  */
 
 char *str_cpy(char *dest, char *src)
@@ -72,17 +71,15 @@ char *str_cpy(char *dest, char *src)
 }
 
 /**
- * str_cat - concatenates two strings
- * @src: The source string to append to @dest
- * @dest: The destination string to be concatenated upon
- *
+ * *str_cat - concatenates @src to @dest
+ * @src: the source string to append to @dest
+ * @dest: the destiation string to be concatenated upon
  * Return: char
  */
 
 char *str_cat(char *dest, char *src)
 {
 	int index = 0;
-
 	int dest_len = 0;
 
 	while (dest[index++])
@@ -114,47 +111,4 @@ int _strncmp(char *str1, char *str2, size_t n)
 	}
 
 	return (*str1 - *str2);
-}
-
-/**
- * str_concat - concatenates two strings.
- * @string1: String to be concatenated
- * @string2: String to be concatenated
- *
- * Return: pointer to the array
- */
-char *str_concat(char *string1, char *string2)
-{
-	char *result;
-
-	int length1 = 0, length2 = 0;
-
-	if (string1 == NULL)
-		string1 = "";
-	length1 = str_len(string1);
-
-	if (string2 == NULL)
-		string2 = "";
-	length2 = str_len(string2);
-
-	result = malloc(sizeof(char) * (length1 + length2 + 1));
-	if (result == NULL)
-	{
-		errno = ENOMEM;
-		perror("Error");
-		return (NULL);
-	}
-	/* copy of string1 */
-	for (length1 = 0; string1[length1] != '\0'; length1++)
-		result[length1] = string1[length1];
-	free(string1);
-	/* copy of string2 */
-	for (length2 = 0; string2[length2] != '\0'; length2++)
-	{
-		result[length1] = string2[length2];
-		length1++;
-	}
-
-	result[length1] = '\0';
-	return (result);
 }

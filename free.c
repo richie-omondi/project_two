@@ -9,8 +9,18 @@
  */
 void free_shell_data(shell_data *shell)
 {
+	int i = 0;
+
 	if (shell->fd != 0)
 		close(shell->fd);
-	if (shell->tokens != NULL)
-		free(shell->tokens);
+
+	for (i = 0; shell->tokens[i]; i++)
+		free(shell->tokens[i]);
+	free(shell->tokens);
+
+	for (i = 0; shell->env[i]; i++)
+		free(shell->env[i]);
+	free(shell->env);
+
+	free(shell->input);
 }
