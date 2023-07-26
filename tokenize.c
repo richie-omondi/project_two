@@ -44,8 +44,10 @@ char *handle_path(shell_data *shell)
 	int buffer_size = BUFFER_SIZE;
 
 	path = get_env_value("PATH", shell);
-	
-	if (path)
+
+	if (path == NULL)
+		return (NULL);
+	else
 	{
 		path_copy = str_dup(path);
 		tokens = strtok(path_copy, delimiter);
@@ -76,7 +78,6 @@ char *handle_path(shell_data *shell)
 			tokens = strtok(NULL, delimiter);
 		}
 		free(path_copy);
-
 		if (stat(shell->command, &sb) == 0)
 			return (shell->command);
 		return (NULL);
@@ -130,7 +131,7 @@ int is_exe(shell_data *shell)
 	{
 		return (j);
 	}
-	/*print_error(127, shell); */
+	print_error(127, shell);
 	return (-1);
 }
 
