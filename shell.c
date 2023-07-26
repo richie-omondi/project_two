@@ -60,7 +60,7 @@ int read_input(shell_data *shell)
 
 	buffer_size = 0;
 
-	result = getline(&(shell->input), &buffer_size, stdin);
+	result = _getline(&(shell->input), &buffer_size, stdin);
 
 	if (result == -1)
 	{
@@ -100,7 +100,7 @@ char **split_input(shell_data *shell)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(shell->input, DELIMITERS);
+	token = str_tok(shell->input, DELIMITERS);
 
 	while (token != NULL)
 	{
@@ -123,7 +123,7 @@ char **split_input(shell_data *shell)
 			shell->tokens = temp;
 			shell->command = shell->tokens[0];
 		}
-		token = strtok(NULL, DELIMITERS);
+		token = str_tok(NULL, DELIMITERS);
 	}
 	shell->tokens[index] = NULL;
 	return (shell->tokens);

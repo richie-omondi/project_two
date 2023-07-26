@@ -48,9 +48,13 @@ char **split_input(shell_data *shell);
 char **tokenize_path(shell_data *shell);
 int check_file(char *path);
 char *get_env_value(char *env_variable, shell_data *shell);
-int find_executable(shell_data *shell);
+int find_and_execute(shell_data *shell);
 int execute_commands(shell_data *shell);
-void add_data_to_shell(shell_data *shell, int ac, char *av[], char **env);
+void add_data_to_shell(shell_data *shell, int ac, char *av[]);
+void exit_shell(shell_data *shell);
+void store_line(char **lineptr, char *buf, size_t *size, size_t buf_size);
+ssize_t _getline(char **lineptr, size_t *size, FILE *fp);
+char *str_tok(char *str, const char *delim);
 
 /******* Print functions ********/
 int print_string(char *s);
@@ -62,8 +66,11 @@ void free_shell_data(shell_data *shell);
 /******** String functions *******/
 int str_len(char *string);
 char *str_dup(char *string);
-char *str_cpy(char *dest, const char *src);
-char *str_cat(char *str1, char *str2);
+char *str_cpy(char *dest, char *src);
+char *str_cat(char *dest, char *src);
 int _strncmp(char *str1, char *str2, size_t n);
+char *str_concat(char *string1, char *string2);
+int is_digit(int i);
+char *str_chr(const char *str, char c);
 
 #endif
