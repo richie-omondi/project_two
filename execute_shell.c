@@ -9,38 +9,52 @@
 int execute_commands(shell_data *shell)
 {
 	pid_t child_pid;
-	int status, retval = 0;
+	int status, code = 0;
 
-	retval = find_executable(shell);
+	char *path = NULL;
 
-	if (retval)
-		return (retval);
-	else
+	code = is_exe(shell);
+	if (code == -1)
+		return (1);
+	if (code == 0)
 	{
-		child_pid = fork();
-		if (child_pid == -1)
-		{
-			perror("Forking error");
-			exit(EXIT_FAILURE);
-		}
-		if (child_pid == 0)
-		{
-		retval = execve(shell->tokens[0], shell->tokens, shell->env);
+		if (path != NULL)
+			free(path);
+		path = handle_path(shell);
+		if (check_execute_permissions(path, shell) == 1)
+			return (1);
+	}
 
-			if (retval == -1)
-			{
-				perror("./hsh");
-				exit(EXIT_FAILURE);
-			}
+	child_pid = fork();
+	if (child_pid == 0)
+	{
+		if (code == 0)
+		{
+			if (path != NULL)
+				free(path);
+
+			path = handle_path(shell);
 		}
 		else
-		{
-			wait(&status);
-			if (WIFEXITED(status))
-				errno = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				errno = 128 + WTERMSIG(status);
-		}
+			path = shell->tokens[0];
+		execve(path + code, shell->tokens, shell->env);
 	}
-		return (0);
+
+	}
+	else if (child_pid < 0)
+	{
+		perror(shell->exe);
+		return (1);
+	}
+	else
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			errno = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			errno = 128 + WTERMSIG(status);
+	}
+	if (path != NULL)
+		free(path);
+	return (1);
 }

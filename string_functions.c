@@ -11,7 +11,7 @@ int str_len(char *string)
 {
 	int len = 0;
 
-	while (*(string + len))
+	while (string[len])
 		len++;
 	return (len);
 }
@@ -36,7 +36,7 @@ char *str_dup(char *string)
 	for (i = 0; *(string + i); i++)
 		length++;
 
-	dup = malloc(sizeof(char) * (length + 1));
+	dup = malloc(sizeof(char) * (length + 10));
 
 	if (dup == NULL)
 		return (NULL);
@@ -59,52 +59,37 @@ char *str_dup(char *string)
  * Return: Returns the string copied
  */
 
-char *str_cpy(char *dest, const char *src)
+char *str_cpy(char *dest, char *src)
 {
-	char *original_dest = dest;
+	int i = -1;
 
-	while (*src != '\0')
-	{
-		*dest = *src;
-		dest++;
-		src++;
-	}
-	*dest = '\0';
-	return (original_dest);
+	do {
+		i++;
+		dest[i] = src[i];
+	} while (src[i] != '\0');
+
+	return (dest);
 }
 
 /**
  * str_cat - concatenates two strings
- * @s1: Pointer to initail string value
- * @s2: Pointer to the string being appended
+ * @src: The source string to append to @dest
+ * @dest: The destination string to be concatenated upon
  *
- * Return: A string that post the concatenation
+ * Return: char
  */
 
-char *str_cat(char *s1, char *s2)
+char *str_cat(char *dest, char *src)
 {
-	ssize_t len1 = 0, len2 = 0;
+	int index = 0;
 
-	char *res;
+	int dest_len = 0;
 
-	if (s1 != NULL)
-		len1 = str_len(s1);
-	if (s2 != NULL)
-		len2 = str_len(s2);
-	res = (char *)malloc(len1 + len2 +1);
-	if (res == NULL)
-	{
-		perror("Memory allocation failure");
-		exit(EXIT_FAILURE);
-	}
-	if (s1 != NULL)
-		str_cpy(res, s1);
-	else
-		*res = '\0';
-	if (s2 != NULL)
-		str_cpy(res + len1, s2);
-
-	return (res);
+	while (dest[index++])
+		dest_len++;
+	for (index = 0; src[index]; index++)
+		dest[dest_len++] = src[index];
+	return (dest);
 }
 
 /**
@@ -129,4 +114,47 @@ int _strncmp(char *str1, char *str2, size_t n)
 	}
 
 	return (*str1 - *str2);
+}
+
+/**
+ * str_concat - concatenates two strings.
+ * @string1: String to be concatenated
+ * @string2: String to be concatenated
+ *
+ * Return: pointer to the array
+ */
+char *str_concat(char *string1, char *string2)
+{
+	char *result;
+
+	int length1 = 0, length2 = 0;
+
+	if (string1 == NULL)
+		string1 = "";
+	length1 = str_len(string1);
+
+	if (string2 == NULL)
+		string2 = "";
+	length2 = str_len(string2);
+
+	result = malloc(sizeof(char) * (length1 + length2 + 1));
+	if (result == NULL)
+	{
+		errno = ENOMEM;
+		perror("Error");
+		return (NULL);
+	}
+	/* copy of string1 */
+	for (length1 = 0; string1[length1] != '\0'; length1++)
+		result[length1] = string1[length1];
+	free(string1);
+	/* copy of string2 */
+	for (length2 = 0; string2[length2] != '\0'; length2++)
+	{
+		result[length1] = string2[length2];
+		length1++;
+	}
+
+	result[length1] = '\0';
+	return (result);
 }

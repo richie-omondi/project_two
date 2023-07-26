@@ -5,14 +5,11 @@
  * @shell: pointer to the struct
  * @ac: number of arguments
  * @av: array of strings as arguments
- * @env: environment variables
  *
  * Return: void
  */
-void add_data_to_shell(shell_data *shell, int ac, char **av, char **env)
+void add_data_to_shell(shell_data *shell, int ac, char **av)
 {
-	int index = 0;
-
 	shell->env = environ;
 	shell->exe = av[0];
 	shell->input = NULL;
@@ -30,10 +27,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av, char **env)
 			exit(127);
 		}
 	}
-	shell->env = _calloc(100, sizeof(char *));
+
 	if (shell->env == NULL)
 		exit(127);
-	for (index = 0; env[index]; index++)
-		shell->env[index] = str_dup(env[index]);
-	shell->env[index] = NULL;
 }

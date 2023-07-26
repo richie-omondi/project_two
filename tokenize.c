@@ -21,7 +21,7 @@ char **tokenize_path(shell_data *shell)
 		return (NULL);
 
 	token_path = strtok(path, delimiter);
-	path_tokens = malloc(buffer_size * sizeof(char *));/***\n Error handlin***/
+	path_tokens = _calloc(100, buffer_size * sizeof(char *));
 	if (path_tokens == NULL)
 	{
 		perror("Memory allocation failure");
@@ -29,8 +29,7 @@ char **tokenize_path(shell_data *shell)
 	}
 	while (token_path != NULL)
 	{
-		path_tokens[j] = str_dup(token_path);
-		token_path = strtok(NULL, delimiter);
+		path_tokens[j] = token_path;
 		j++;
 		if (j >= buffer_size)
 		{
@@ -45,6 +44,8 @@ char **tokenize_path(shell_data *shell)
 				temp[i] = path_tokens[i];
 			path_tokens = temp;
 		}
+
+		token_path = strtok(NULL, delimiter);
 	}
 	path_tokens[j] = NULL;
 	return (path_tokens);

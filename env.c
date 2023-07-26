@@ -18,8 +18,9 @@ char *get_env_value(char *env_variable, shell_data *shell)
 
 	for (i = 0; shell->env[i] != NULL; i++)
 	{
-		if (_strncmp(env_variable, shell->env[i], variable_length) && shell->env[i][variable_length] == '=')
-				return (shell->env[i] + variable_length + 1);
+		if (_strncmp(env_variable, shell->env[i], variable_length) &&
+				shell->env[i][variable_length] == '=')
+			return (shell->env[i] + variable_length + 1);
 	}
 	return (NULL);
 }
