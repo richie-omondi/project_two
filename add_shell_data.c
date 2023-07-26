@@ -22,7 +22,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av)
 		;
 
 	shell->env = malloc(sizeof(char *) * (i + 1));
-	
+
 	for (i = 0; environ[i]; i++)
 	{
 		shell->env[i] = str_dup(environ[i]);
@@ -31,7 +31,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av)
 	shell->env[i] = NULL;
 
 	if (shell->env == NULL)
-		exit_shell(127);
+		exit_shell(shell);
 
 	if (ac == 1)
 		shell->fd = STDIN_FILENO;
@@ -41,7 +41,7 @@ void add_data_to_shell(shell_data *shell, int ac, char **av)
 		if (shell->fd == -1)
 		{
 			perror(shell->exe);
-			exit(127);
+			exit_shell(shell);
 		}
 	}
 }

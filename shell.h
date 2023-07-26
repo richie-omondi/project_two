@@ -59,6 +59,7 @@ int int_length(int n);
 char *_itoa(int n);
 int check_execute_permissions(char *path, shell_data *shell);
 int exit_shell(shell_data *shell);
+int is_digit(int i);
 
 /******* Print functions ********/
 int print_string(char *s);
