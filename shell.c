@@ -34,7 +34,11 @@ void shell_loop(shell_data *shell)
 
 	while (++(shell->no_of_executions))
 	{
-		print_string(shell_sign);
+		if (isatty(STDIN_FILENO))
+		{
+			print_string(shell_sign);
+			fflush(stdout);
+		}
 		input_length = read_input(shell);
 		if (input_length >= 1)
 		{
