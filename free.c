@@ -23,4 +23,6 @@ void free_shell_data(shell_data *shell)
 	free(shell->env);
 
 	free(shell->input);
+
+	shell->input = NULL;
 }

@@ -56,7 +56,10 @@ char *handle_path(shell_data *shell)
 			if (check_path(path))
 			{
 				if (stat(shell->command, &sb) == 0)
+				{
+					free(path_copy);
 					return (shell->command);
+				}
 			}
 			path_tokens = _calloc(100, buffer_size * sizeof(char *));
 			if (path_tokens == NULL)
