@@ -39,11 +39,10 @@ void shell_loop(shell_data *shell)
 			print_string(shell_sign);
 			fflush(stdout);
 		}
-		input_length = read_input(shell);
+		input_length = read_input(shell, BUFFER_SIZE);
 		if (input_length >= 1)
 		{
 			split_input(shell);
-
 			if (shell->tokens[0])
 				execute_commands(shell);
 		}
@@ -57,21 +56,20 @@ void shell_loop(shell_data *shell)
  *
  * Return: input fed to the shell
  */
-int read_input(shell_data *shell)
+int read_input(shell_data *shell, size_t buffer_size)
 {
-	size_t buffer_size;
 	int result;
-
-	buffer_size = 0;
 
 	result = getline(&(shell->input), &buffer_size, stdin);
 
 	if (result == -1)
 	{
 		if (result == EOF)
-		{
-			free_shell_data(shell);
-			exit(errno);
+		{	if (shell->input)
+				free(shell->input);
+
+			free_without_input(shell);
+			exit(EXIT_SUCCESS);
 		}
 		else
 			exit(EXIT_FAILURE);

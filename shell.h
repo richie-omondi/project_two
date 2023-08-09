@@ -46,7 +46,7 @@ typedef struct data
 
 /****** Implement the shell ******/
 void shell_loop(shell_data *shell);
-int read_input(shell_data *shell);
+int read_input(shell_data *shell, size_t buffer_size);
 char **split_input(shell_data *shell);
 char *handle_path(shell_data *shell);
 int check_file(char *path);
@@ -70,6 +70,7 @@ int str_cmp(char *s1, char *s2);
 /****** Memory functions *******/
 void *_calloc(unsigned int nmem, unsigned int size);
 void free_shell_data(shell_data *shell);
+void free_without_input(shell_data *shell);
 
 /******** String functions *******/
 int str_len(char *string);
