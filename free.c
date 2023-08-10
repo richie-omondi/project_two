@@ -46,11 +46,7 @@ void free_without_input(shell_data *shell)
 		if (!(shell->input))
 			free(shell->tokens);
 		else
-		{
-			for (i = 0; shell->tokens[i]; i++)
-				free(shell->tokens[i]);
 			free(shell->tokens);
-		}
 	}
 
 	for (i = 0; shell->env[i]; i++)

@@ -44,7 +44,10 @@ void shell_loop(shell_data *shell)
 		{
 			split_input(shell);
 			if (shell->tokens[0])
+			{
 				execute_commands(shell);
+				free(shell->tokens);
+			}
 		}
 	}
 	free_shell_data(shell);
