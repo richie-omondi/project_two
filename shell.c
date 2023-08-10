@@ -44,10 +44,7 @@ void shell_loop(shell_data *shell)
 		{
 			split_input(shell);
 			if (shell->tokens[0])
-			{
 				execute_commands(shell);
-				free(shell->tokens);
-			}
 		}
 	}
 	free_shell_data(shell);
@@ -56,6 +53,7 @@ void shell_loop(shell_data *shell)
 /**
  * read_input - Reads the input typed by the user
  * @shell: Struct containing data fed to the shell
+ * @buffer_size: size of the buffer
  *
  * Return: input fed to the shell
  */
@@ -68,7 +66,8 @@ int read_input(shell_data *shell, size_t buffer_size)
 	if (result == -1)
 	{
 		if (result == EOF)
-		{	if (shell->input)
+		{
+			if (shell->input)
 				free(shell->input);
 
 			free_without_input(shell);
