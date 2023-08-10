@@ -14,9 +14,13 @@ void free_shell_data(shell_data *shell)
 	if (shell->fd != 0)
 		close(shell->fd);
 
-	for (i = 0; shell->tokens[i]; i++)
-		free(shell->tokens[i]);
-	free(shell->tokens);
+	if (shell->tokens)
+	{
+		if (!(shell->input))
+			free(shell->tokens);
+		else
+			free(shell->tokens);
+	}
 
 	for (i = 0; shell->env[i]; i++)
 		free(shell->env[i]);

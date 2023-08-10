@@ -44,7 +44,10 @@ void shell_loop(shell_data *shell)
 		{
 			split_input(shell);
 			if (shell->tokens[0])
+			{
 				execute_commands(shell);
+				free(shell->tokens);
+			}
 		}
 	}
 	free_shell_data(shell);
@@ -118,6 +121,7 @@ char **split_input(shell_data *shell)
 			for (j = 0; j < index; j++)
 				temp[j] = shell->tokens[j];
 			shell->tokens = temp;
+			free(temp);
 			shell->command = shell->tokens[0];
 		}
 		token = strtok(NULL, DELIMITERS);
