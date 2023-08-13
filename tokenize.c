@@ -94,7 +94,7 @@ char *handle_path(shell_data *shell)
 }
 
 /**
- * is_cmd - checks if the file is an executable
+ * is_exe - checks if the file is an executable
  * @shell: data fed to the shell
  *
  * Return: 0
