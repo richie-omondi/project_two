@@ -6,23 +6,11 @@
 
 ## Description
 
-This repository contains the files to simulate a basic **Unix Shell** with its respective commands. It uses the `POSIX API` to implement many of the same functionalities of the first Ken Thompson's Shell and it's made to carry out the **0x16. C - Simple Shell** project at [ALX SE.](https://www.alxafrica.com/ "ALX Africa.")
+This repository contains the files to simulate a basic **Unix Shell** with its respective commands. It uses the `POSIX API` to implement many of the same functionalities of the first Ken Thompson's Shell.
 
 The predominantly used system and function calls are `read`, `write`, `open`, `execve`, `exit`, `fflush`, `fork`, `free`, `malloc`, `getline`, `isatty`, `perror`, `strtok`, `wait`, and `waitpid`.
 
 This simple shell is a Shell interface written in the `C` programming language that gives to the user a prompt `$` and executes a user-inputted command. The shell is used directly to interact with the Kernel that hosts the OS.
-
-## General
-
-- Allowed editors: `vi`, `vim`, `emacs`
-- All your files will be compiled on Ubuntu 14.04 LTS
-- Your programs and functions will be compiled with `gcc 4.8.4` using the flags `-Wall` `-Werror` `-Wextra` and `-pedantic`
-- All your files should end with a new line
-- A `README.md` file, at the root of the folder of the project is mandatory
-- Your code should use the `Betty` style. It will be checked using [betty-style.pl](https://github.com/holbertonschool/Betty/blob/master/betty-style.pl "betty-style.pl") and [betty-doc.pl](https://github.com/holbertonschool/Betty/blob/master/betty-doc.pl "betty-doc.pl")
-- Your shell should not have any memory leaks
-- No more than 5 functions per file
-- All your header files should be include guarded
 
 ## Main Features
 * This program displays a prompt and waits for the user to type a command. A command line always ends with a new line (when the user pushes the *ENTER* key).
