@@ -12,7 +12,7 @@ The predominantly used system and function calls are `read`, `write`, `open`, `e
 
 This simple shell is a Shell interface written in the `C` programming language that gives to the user a prompt `$` and executes a user-inputted command. The shell is used directly to interact with the Kernel that hosts the OS.
 
-## General.
+## General
 
 - Allowed editors: `vi`, `vim`, `emacs`
 - All your files will be compiled on Ubuntu 14.04 LTS
@@ -24,10 +24,10 @@ This simple shell is a Shell interface written in the `C` programming language t
 - No more than 5 functions per file
 - All your header files should be include guarded
 
-## Features:
+## Main Features
 * This program displays a prompt and waits for the user to type a command. A command line always ends with a new line (when the user pushes the *ENTER* key).
 * The prompt is displayed again each time a command has been executed.
-* When the user enters exit, *Hell shell* will end and returns the status 0.
+* When the user enters exit, the shell will end and returns the status 0.
 * The user could stop the program using *Ctrl+D* (end of file).
 * The shell handles the command lines with arguments and pathways.
 * The program does not quit when the user inputs ^C (Ctrl+C).
@@ -36,14 +36,14 @@ This simple shell is a Shell interface written in the `C` programming language t
 * This Shell does not support commentaries using `#`.
 * This shell does not support pipes `|`, shell logical operators such as `&&` or `||`, neither commands separator `;`.
 
-## Requirements:
+## Requirements
 
 * Operating System: [Ubuntu 14.04 LTS](http://releases.ubuntu.com/14.04/)
 
 * Compiler: [GCC 4.8.4](https://gcc.gnu.org/gcc-4.8/)
 
 
-## Process Description
+## Program Execution Workflow
 
 The next steps are a brief description of how the shell works:
 
@@ -54,6 +54,103 @@ The next steps are a brief description of how the shell works:
 5. After tokenizing the command, `execve()` executes it, and all allocated memory is freed using `free()`.
 6. Finally, the program returns to `main()`, prints the prompt, and waits for another user input.
 
+
+## Implementation
+
+To run this shell with its respective commands, clone this repository in your terminal.
+- HTTPS:
+
+```c
+git clone https://github.com/richie-omondi/simple_shell.git
+```
+
+- SSH:
+
+```
+git clone git@github.com:richie-omondi/simple_shell.git
+```
+
+## Compilation
+
+```
+gcc -Wall -Wextra -Werror -pedantic -ggdb3 *.c -o hsh
+```
+## Debugging
+
+- If you want to **debug** the shell, use valgrind:
+```
+valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all -s ./hsh
+```
+More info on Valgrind can be found here: https://valgrind.org/
+
+- Or just **run** and try this shell using:
+```
+./hsh
+```
+## Examples
+
+Here are shown some examples of the usage of the Shell:
+
+- ls
+
+```shell
+($) ls
+add_shell_data.c  debugging.txt  errors.c         free.c  memory_functions.c  print.c    shell.c  string_functions_2.c  Tasks.md   tokenize.c
+AUTHORS           env.c          execute_shell.c  hsh     Notes.md            README.md  shell.h  string_functions.c    test_ls_2
+```
+
+```shell
+($) /bin/ls
+add_shell_data.c  debugging.txt  errors.c         free.c  memory_functions.c  print.c    shell.c  string_functions_2.c  Tasks.md   tokenize.c
+AUTHORS           env.c          execute_shell.c  hsh     Notes.md            README.md  shell.h  string_functions.c    test_ls_2
+```
+
+```shell
+($) ls -lat
+total 108
+-rwxr-xr-x 1 root root 23184 Aug 20 07:06 hsh
+drwxr-xr-x 3 root root  4096 Aug 20 07:06 .
+drwxr-xr-x 8 root root   220 Aug 20 07:06 .git
+-rw-r--r-- 1 root root  3957 Aug 20 07:06 README.md
+-rw-r--r-- 1 root root  2051 Aug 13 14:20 shell.h
+-rw-r--r-- 1 root root  2727 Aug 13 14:20 shell.c
+-rw-r--r-- 1 root root  1252 Aug 13 14:16 free.c
+-rw-r--r-- 1 root root  2955 Aug 13 07:45 tokenize.c
+drwxr-xr-x 1 root root   170 Aug 12 13:49 ..
+-rw-r--r-- 1 root root  1667 Aug  9 06:20 string_functions_2.c
+-rw-r--r-- 1 root root    16 Aug  9 06:20 test_ls_2
+-rw-r--r-- 1 root root   773 Aug  9 06:20 add_shell_data.c
+-rw-r--r-- 1 root root    81 Aug  9 06:20 AUTHORS
+-rw-r--r-- 1 root root    79 Aug  9 06:20 debugging.txt
+-rw-r--r-- 1 root root   957 Aug  9 06:20 env.c
+-rw-r--r-- 1 root root   951 Aug  9 06:20 errors.c
+-rw-r--r-- 1 root root   862 Aug  9 06:20 execute_shell.c
+-rw-r--r-- 1 root root   636 Aug  9 06:20 memory_functions.c
+-rw-r--r-- 1 root root  8624 Aug  9 06:20 Notes.md
+-rw-r--r-- 1 root root   272 Aug  9 06:20 print.c
+-rw-r--r-- 1 root root  2224 Aug  9 06:20 string_functions.c
+-rw-r--r-- 1 root root  1574 Aug  9 06:20 Tasks.md
+```
+- pwd
+
+```shell
+($) pwd
+/simple_shell
+```
+- echo
+
+```shell
+($) echo Hello World
+Hello World
+```
+- *Ctrl+D*  and  *Ctrl+C* 
+
+```shell
+($) ^C
+($)
+vagrant@vagrant-ubuntu-trusty-64:~/ALX/simple_shell$ 
+```
+Note that in the second line the *Ctrl+D*  is typed
 
 ## Authors:
 
