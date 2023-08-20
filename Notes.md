@@ -1,23 +1,3 @@
-# Chapter 16: C - Simple Shell
-###### Write a simple UNIX command interpreter.
-
-## How to approach this project.
-
-1. Read the task or challenge.
-2. Rephrase it in your own words.
-3. Verify expected behavior by getting example inputs and outputs.
-4. Whiteboard your solution with words.
-5. Walk through your solution with an example as if you were a machine. Do only what is written down. Correct your solution if needed.
-6. Whiteboard your solution with pseudocode.
-7. Walk through your solution with an example as if you were a machine. Do only what is written down. Correct your solution if needed.
-8. Whiteboard your solution with code.
-9. Walk through your solution with an example as if you were a machine. Do only what is written down. Correct your solution if needed.
-10. Write your code on your computer. [Note: This is this first time you are using your computer! Only when you know exactly what to code.]
-11. Test your code on your computer.
-12. Debug if necessary.
-13. You complete the task or challenge!
-> Be sure to break your task or project into smaller and smaller pieces, until you are comfortable solving each piece with the above steps.
-
 ## General ideas
 
 ### Who designed and implemented the original Unix operating system
