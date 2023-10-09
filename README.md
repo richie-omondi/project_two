@@ -8,7 +8,7 @@
 
 This repository contains the files to simulate a basic **Unix Shell** with its respective commands. It uses the `POSIX API` to implement many of the same functionalities of the first Ken Thompson's Shell.
 
-The predominantly used system and function calls are `read`, `write`, `open`, `execve`, `exit`, `fflush`, `fork`, `free`, `malloc`, `getline`, `isatty`, `perror`, `strtok`, `wait`, and `waitpid`.
+In `C` language, header files (`.h`) contain a set of predefined standard library functions. The `.h` is the extension of the header files in `C` and we request to use a header file in our program by including it with the C preprocessing directive `#include <file_name.h>`. `C` language has numerous libraries that include predefined functions to make programming easier. The predominantly used system and function calls used in this program are `read`, `write`, `open`, `execve`, `exit`, `fflush`, `fork`, `free`, `malloc`, `getline`, `isatty`, `perror`, `strtok`, `wait`, and `waitpid`.
 
 This simple shell is a Shell interface written in the `C` programming language that gives to the user a prompt `$` and executes a user-inputted command. The shell is used directly to interact with the Kernel that hosts the OS.
 
