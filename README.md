@@ -1,4 +1,4 @@
-<h1 align ="center">Hell In A Shell 🔥</h1><br>
+<h1 align ="center">Simple Shell 🔥</h1><br>
 <p align="center">
 <img src="https://iili.io/HgHDhDN.md.jpg" alt="Laptop on fire from Hell in a Shell!" border="0"></a>
 </p>
